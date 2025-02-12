@@ -1,0 +1,9 @@
+ignore : 
+- OthelloDisplay.java
+- MoveStats.java
+
+main logic : BoardState
+- getContents : retrieve board squares
+- setContents : setting the individual board squares
+- checkLegalMove : checks whetheris is possible for the current player to make the given move
+- makeLegalMove : make the actual move
