@@ -1,0 +1,21 @@
+- show profile card for each employee (photo, job title, department, contact information)
+- live search feature
+- clicking on a profile card opens detailed view
+- add new employees
+- update all information
+- update information (promotions - specified pay increase)
+- record the information update
+- employes to request leave (leave type, start, end, comments)
+- management approval system
+- payroll summaries (monthly, quarterly, annually)
+    --- details (name, department, job title), base salary information
+    --- bonuses, incentives, other allowances
+    --- deductions (taxes, insurance, retirement contribution)
+    --- export to PDF or CSV
+    --- filtering and sorting (department, role, salary)
+- absenteeism report (specified periods - total, reasons, average by department)
+- retrieves all employees with birthday in current calendar month (saved)
+- termination details (details, current date, current time, employee id of logger)
+
+INSERT INTO employee (unique_ID, employee_name, position, salary, email, dob, profile_picture, office_location, home_address, hired_date, amount_of_leave, contract, nin, emergency_name, emergency_relationship, emergency_phone)
+VALUES (15210392, 'Gert Romagnosi', 'Back End Developer', 37617, 'Gert.Romagnosi@kilburnazon.com', '1995-04-29', 'profile_icon.jpg', 'Kilburn Building', '81 Mallard Alley', '2016-08-21', 30, 'Full-Time', 'TG492624A', 'Jilly Fullbrook', 'Girlfriend', '07405 079997'),
