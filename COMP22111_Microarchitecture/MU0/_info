@@ -1,0 +1,115 @@
+m255
+K4
+z2
+!s11f vlog 2023.4 2023.10, Oct  9 2023
+13
+!s112 1.1
+!i10d 8192
+!i10e 25
+!i10f 100
+cModel Technology
+Z0 d/home/s61110ab/Questa/COMP22111
+vMU0
+2./src/MU0/MU0.v
+Z1 !s110 1731063264
+!i10b 1
+!s100 DgQLN^XAME?6G3OaFGQB00
+IILaez[jnXikm_NOM]R3Yz3
+R0
+Z2 w1728641953
+8./src/MU0/MU0.v
+F./src/MU0/MU0.v
+!i122 307
+L0 15 105
+Z3 VDg1SIo80bB@j0V0VzS_@n1
+Z4 OL;L;2023.4;77
+r1
+!s85 0
+31
+Z5 !s108 1731063264.000000
+!s107 ./src/MU0/MU0.v|
+!s90 -reportprogress|300|-lint|-cover|bcsxf|./src/MU0/MU0.v|
+!s101 -O0
+!i113 0
+Z6 !s102 -cover bcsxf
+Z7 o-O0 -lint -cover bcsxf
+Z8 tShow_source 1 DisableOpt 1 CoverOpt 1 CvgOpt 0
+n@m@u0
+vMU0_Board
+2./src/MU0/MU0_Board.v
+!s110 1731063263
+!i10b 1
+!s100 jC7`;6X2RBHa]=OKSOVA01
+ID=7;;_I[G4iz6X5?_GA0F0
+R0
+R2
+8./src/MU0/MU0_Board.v
+F./src/MU0/MU0_Board.v
+!i122 304
+L0 16 250
+R3
+R4
+r1
+!s85 0
+31
+Z9 !s108 1731063263.000000
+!s107 ./src/MU0/MU0_Board.v|
+!s90 -reportprogress|300|-lint|-cover|bcsxf|./src/MU0/MU0_Board.v|
+!s101 -O0
+!i113 0
+R6
+R7
+R8
+n@m@u0_@board
+vMU0_Memory
+2./src/MU0/MU0_Memory.v
+R1
+!i10b 1
+!s100 U81ImLmS;YDoLC42QY;PE3
+IbYRj@6W`;A>VKz[oN3IXT3
+R0
+R2
+8./src/MU0/MU0_Memory.v
+F./src/MU0/MU0_Memory.v
+!i122 305
+L0 18 426
+R3
+R4
+r1
+!s85 0
+31
+R9
+!s107 ./src/MU0/MU0_Memory.v|
+!s90 -reportprogress|300|-lint|-cover|bcsxf|./src/MU0/MU0_Memory.v|
+!s101 -O0
+!i113 0
+R6
+R7
+R8
+n@m@u0_@memory
+vMU0_Testbench
+2./src/MU0/MU0_Testbench.v
+R1
+!i10b 1
+!s100 `kccbN4^zTI1I3J0BNZk_2
+IVZ_]]NLZ_B1W3;_:@Y<5o1
+R0
+R2
+8./src/MU0/MU0_Testbench.v
+F./src/MU0/MU0_Testbench.v
+!i122 306
+L0 12 78
+R3
+R4
+r1
+!s85 0
+31
+R5
+!s107 ./src/MU0/MU0_Testbench.v|
+!s90 -reportprogress|300|-lint|-cover|bcsxf|./src/MU0/MU0_Testbench.v|
+!s101 -O0
+!i113 0
+R6
+R7
+R8
+n@m@u0_@testbench

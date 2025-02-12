@@ -1,0 +1,403 @@
+KMD
+00000000:       ; org 0
+00000000:       ; 
+00000000: D1E2  ; ld r1, start_point
+00000001: D2E2  ; ld r2, display_start
+00000002: F003  ; bal init_led
+00000003:       ; 
+00000003: FF00  ; start_point    DEFW 0xFF00
+00000004: FF40  ; display_start  DEFW 0xFF40
+00000005: FF8F  ; display_end    DEFW 0xFF8F
+00000006:       ; 
+00000006:       ; init_led
+00000006: D3FE  ;         ld r3, display_end
+00000007:       ; 
+00000007: D840  ;         st r0, [r2]
+00000008: 1241  ;         add r2, r2, #1
+00000009: 4868  ;         subs r0, r3, r2
+0000000A: F6FB  ;         bne init_led
+0000000B:       ; 
+0000000B: F002  ;         bal write
+0000000C:       ; 
+0000000C: FF50  ; P         DEFW   0xFF50
+0000000D: FF55  ; display   DEFW   0xFF55
+0000000E:       ; 
+0000000E:       ; write
+0000000E:       ;         
+0000000E:       ;         ; P
+0000000E: D2FD  ;         ld r2, P
+0000000F: D3FD  ;         ld r3, display
+00000010: DA60  ;         st r2, [r3]
+00000011:       ; 
+00000011:       ;         ; I
+00000011: 5247  ;         sub r2, r2, #7
+00000012: 1361  ;         add r3, r3, #1
+00000013: DA60  ;         st r2, [r3]
+00000014:       ; 
+00000014:       ;         ; X
+00000014: 124F  ;         add r2, r2, #15
+00000015: 1361  ;         add r3, r3, #1
+00000016: DA60  ;         st r2, [r3]
+00000017:       ; 
+00000017:       ;         ; E
+00000017: 524A  ;         sub r2, r2, #10
+00000018: 5249  ;         sub r2, r2, #9
+00000019: 1361  ;         add r3, r3, #1
+0000001A: DA60  ;         st r2, [r3]
+0000001B:       ; 
+0000001B:       ;         ; L
+0000001B: 1247  ;         add r2, r2, #7
+0000001C: 1361  ;         add r3, r3, #1
+0000001D: DA60  ;         st r2, [r3]
+0000001E:       ; 
+0000001E:       ;         ; A
+0000001E: 524B  ;         sub r2, r2, #11
+0000001F: 1361  ;         add r3, r3, #1
+00000020: DA60  ;         st r2, [r3]
+00000021:       ; 
+00000021:       ;         ; T
+00000021: 124A  ;         add r2, r2, #10
+00000022: 1249  ;         add r2, r2, #9
+00000023: 1361  ;         add r3, r3, #1
+00000024: DA60  ;         st r2, [r3]
+00000025:       ; 
+00000025:       ;         ; E
+00000025: 524A  ;         sub r2, r2, #10
+00000026: 5245  ;         sub r2, r2, #5
+00000027: 1361  ;         add r3, r3, #1
+00000028: DA60  ;         st r2, [r3]
+00000029:       ; 
+00000029:       ;         ; D
+00000029: 5241  ;         sub r2, r2, #1
+0000002A: 1361  ;         add r3, r3, #1
+0000002B: DA60  ;         st r2, [r3]
+0000002C:       ; 
+0000002C: F001  ;         bal clear
+0000002D:       ; 
+0000002D: FF40  ; end_point   DEFW 0xFF40
+0000002E:       ; 
+0000002E:       ; ; reset the board before starting
+0000002E:       ; clear
+0000002E: 0200  ;         mov r2, r0
+0000002F: D4FD  ;         ld r4, end_point
+00000030:       ; 
+00000030: DA20  ;         st r2, [r1]
+00000031: 1121  ;         add r1, r1, #1
+00000032: 4884  ;         subs r0, r4, r1
+00000033: F6FA  ;         bne clear
+00000034: F002  ;         bal level_one
+00000035:       ; 
+00000035: FFFF  ; white DEFW 0xFFFF
+00000036: FF00  ; start DEFW 0xFF00
+00000037:       ; 
+00000037:       ; level_one
+00000037:       ;         ;set player start
+00000037: 0300  ;         mov r3, r0
+00000038: D1FD  ;         ld r1, start
+00000039: D2FB  ;         ld r2, white
+0000003A: DA29  ;         st r2, [r1, #9]
+0000003B:       ; 
+0000003B: D1E2  ;         ld r1, player_start
+0000003C: 1129  ;         add r1, r1, #9
+0000003D: F009  ;         bal move_poll
+0000003E:       ; 
+0000003E: FF00  ; player_start DEFW 0xFF00
+0000003F:       ; 
+0000003F:       ; ; do not change from this point
+0000003F:       ; ; r1 - current location
+0000003F:       ; ; r2 - write value
+0000003F:       ; ; r3 - isWrite
+0000003F:       ; 
+0000003F: FF95  ; switches_read DEFW 0xFF95
+00000040: 0080  ; compare_init  DEFW 0x0080
+00000041: 0000  ; pc_store      DEFW 0x0000
+00000042:       ; 
+00000042:       ; ; delay because clock is faster than human
+00000042:       ; delay_limit
+00000042: 5DA1  ;         subs r5, r5, #1
+00000043: F6FE  ;         bne delay_limit
+00000044:       ; 
+00000044:       ;         ; return to caller + 1
+00000044: D5FC  ;         ld r5, pc_store
+00000045: 17A1  ;         add pc, r5, #1
+00000046:       ; 
+00000046: F000  ; delay_val DEFW 0xF000
+00000047:       ; 
+00000047:       ; ; poll the switches
+00000047:       ; move_poll
+00000047:       ;         ; call delay
+00000047: D5FE  ;         ld r5, delay_val
+00000048: DFF8  ;         st pc, pc_store
+00000049: F0F8  ;         bal delay_limit
+0000004A:       ; 
+0000004A: D6F4  ;         ld r6, switches_read
+0000004B: D4F4  ;         ld r4, compare_init
+0000004C:       ; 
+0000004C:       ;         ; read from switches
+0000004C: D6C0  ;         ld r6, [r6]
+0000004D:       ; 
+0000004D:       ;         ; check for h
+0000004D: 8898  ;         ands r0, r4, r6
+0000004E: F60F  ;         bne add_down
+0000004F:       ; 
+0000004F:       ;         ; rotate and check for g -> right
+0000004F: 0482  ;         add r4, r4, r0, ror
+00000050: 8898  ;         ands r0, r4, r6
+00000051: F617  ;         bne add_right
+00000052:       ; 
+00000052:       ;         ; rotate and check for f -> clear
+00000052: 0482  ;         add r4, r4, r0, ror
+00000053: 8898  ;         ands r0, r4, r6
+00000054: F6D9  ;         bne clear
+00000055:       ; 
+00000055:       ;         ; rotate and check for e -> left
+00000055: 0482  ;         add r4, r4, r0, ror
+00000056: 8898  ;         ands r0, r4, r6
+00000057: F621  ;         bne add_left
+00000058:       ; 
+00000058:       ;         ; rotate and check for d -> up
+00000058: 0482  ;         add r4, r4, r0, ror
+00000059: 8898  ;         ands r0, r4, r6
+0000005A: F62A  ;         bne add_up
+0000005B:       ; 
+0000005B: F038  ;         bal col_poll
+0000005C:       ; 
+0000005C: F13F  ; sound_1         DEFW 0xF13F
+0000005D: FF92  ; buzz_add_1              DEFW 0xFF92
+0000005E:       ; 
+0000005E:       ; ; adjust the movement
+0000005E:       ; add_down
+0000005E:       ;         ; check if need to erase
+0000005E: 4860  ;         subs r0, r3, r0
+0000005F: 06E0  ;         mov r6, pc
+00000060: F716  ;         beq erase
+00000061:       ; 
+00000061:       ;         ; sound
+00000061: D2FB  ;         ld r2, buzz_add_1
+00000062: D3F9  ;         ld r3, sound_1
+00000063: DB40  ;         st r3, [r2]
+00000064:       ; 
+00000064:       ;         ; move
+00000064: 1128  ;         add r1, r1, #8
+00000065:       ; 
+00000065: D2EE  ;         ld r2, white_down
+00000066: DA20  ;         st r2, [r1]
+00000067: 0300  ;         add r3, r0, r0
+00000068:       ; 
+00000068: F0DE  ;         bal move_poll
+00000069:       ;         
+00000069:       ; add_right
+00000069:       ;         ; check if need to erase
+00000069: 4860  ;         subs r0, r3, r0
+0000006A: 06E0  ;         mov r6, pc
+0000006B: F70B  ;         beq erase
+0000006C:       ; 
+0000006C:       ;         ; sound
+0000006C: D2E9  ;         ld r2, buzz_add_2
+0000006D: D3E7  ;         ld r3, sound_2
+0000006E: DB40  ;         st r3, [r2]
+0000006F:       ; 
+0000006F:       ;         ; move
+0000006F: 1121  ;         add r1, r1, #1
+00000070:       ; 
+00000070: D2E3  ;         ld r2, white_down
+00000071: DA20  ;         st r2, [r1]
+00000072: 0300  ;         add r3, r0, r0
+00000073:       ; 
+00000073: F0D3  ;         bal move_poll
+00000074:       ; 
+00000074: FFFF  ; white_down      DEFW 0xFFFF
+00000075: F13F  ; sound_2         DEFW 0xF13F
+00000076: FF92  ; buzz_add_2              DEFW 0xFF92
+00000077:       ; 
+00000077:       ; ; erase to simulate movement
+00000077:       ; erase
+00000077: D820  ;         st r0, [r1]
+00000078: 17C1  ;         add pc, r6, #1
+00000079:       ; 
+00000079:       ; add_left
+00000079:       ;         ; check if need to erase
+00000079: 4860  ;         subs r0, r3, r0
+0000007A: 06E0  ;         mov r6, pc
+0000007B: F7FB  ;         beq erase
+0000007C:       ; 
+0000007C:       ;         ; move
+0000007C: 5121  ;         sub r1, r1, #1
+0000007D:       ; 
+0000007D:       ;         ; sound
+0000007D: D2F8  ;         ld r2, buzz_add_2
+0000007E: D3F6  ;         ld r3, sound_2
+0000007F: DB40  ;         st r3, [r2]
+00000080:       ; 
+00000080: D2E3  ;         ld r2, white_up
+00000081: DA20  ;         st r2, [r1]
+00000082: 0300  ;         add r3, r0, r0
+00000083:       ; 
+00000083: F0C3  ;         bal move_poll
+00000084:       ; 
+00000084: FFFF  ; white_up        DEFW 0xFFFF
+00000085:       ; 
+00000085:       ; add_up
+00000085:       ;         ; check if need to erase
+00000085: 4860  ;         subs r0, r3, r0
+00000086: 06E0  ;         mov r6, pc
+00000087: F7EF  ;         beq erase
+00000088:       ; 
+00000088:       ;         ; move
+00000088: 5128  ;         sub r1, r1, #8
+00000089:       ; 
+00000089:       ;         ; sound
+00000089: D2E7  ;         ld r2, buzz_add_3
+0000008A: D3E5  ;         ld r3, sound_3
+0000008B: DB40  ;         st r3, [r2]
+0000008C:       ; 
+0000008C: D2F7  ;         ld r2, white_up
+0000008D: DA20  ;         st r2, [r1]
+0000008E: 0300  ;         add r3, r0, r0
+0000008F:       ; 
+0000008F: F0B7  ;         bal move_poll
+00000090:       ; 
+00000090: F13F  ; sound_3         DEFW 0xF13F
+00000091: FF92  ; buzz_add_3              DEFW 0xFF92
+00000092: FF94  ; keypad_read     DEFW 0xFF94
+00000093: 0008  ; compare_col     DEFW 0x0008
+00000094:       ; 
+00000094:       ; ; poll for colour to draw
+00000094:       ; col_poll
+00000094:       ; 
+00000094: D6FD  ;         ld r6, keypad_read
+00000095: D4FD  ;         ld r4, compare_col
+00000096:       ; 
+00000096:       ;         ; read from switches
+00000096: D6C0  ;         ld r6, [r6]
+00000097:       ; 
+00000097:       ;         ; rotate and check for 3
+00000097: 8898  ;         ands r0, r4, r6
+00000098: F60D  ;         bne paint_green
+00000099:       ; 
+00000099:       ;         ; rotate and check for 2
+00000099: 0482  ;         add r4, r4, r0, ror
+0000009A: 8898  ;         ands r0, r4, r6
+0000009B: F612  ;         bne paint_red
+0000009C:       ; 
+0000009C:       ;         ; rotate and check for 1
+0000009C: 0482  ;         add r4, r4, r0, ror
+0000009D: 8898  ;         ands r0, r4, r6
+0000009E: F617  ;         bne paint_blue
+0000009F:       ; 
+0000009F:       ;         ; rotate and check for 0
+0000009F: 0482  ;         add r4, r4, r0, ror
+000000A0: 8898  ;         ands r0, r4, r6
+000000A1: F61D  ;         bne paint_white
+000000A2:       ; 
+000000A2: F0A4  ;         bal move_poll
+000000A3:       ; 
+000000A3: FF1C  ; green           DEFW 0xFF1C
+000000A4: F13F  ; sound_5         DEFW 0xF13F
+000000A5: FF92  ; buzz_add_5              DEFW 0xFF92
+000000A6:       ; 
+000000A6:       ; paint_green
+000000A6:       ;         ; sound
+000000A6: D2FE  ;         ld r2, buzz_add_5
+000000A7: D3FC  ;         ld r3, sound_5
+000000A8: DB40  ;         st r3, [r2]
+000000A9:       ; 
+000000A9: D3F9  ;         ld r3, green
+000000AA: DB20  ;         st r3, [r1]
+000000AB: 1301  ;         add r3, r0, #1
+000000AC:       ; 
+000000AC: F09A  ;         bal move_poll
+000000AD:       ; 
+000000AD: FFE0  ; red           DEFW 0xFFE0
+000000AE:       ; 
+000000AE:       ; paint_red
+000000AE:       ;         ; sound
+000000AE: D2EF  ;         ld r2, buzz_add_4
+000000AF: D3ED  ;         ld r3, sound_4
+000000B0: DB40  ;         st r3, [r2]
+000000B1:       ; 
+000000B1: D3FB  ;         ld r3, red
+000000B2: DB20  ;         st r3, [r1]
+000000B3: 1301  ;         add r3, r0, #1
+000000B4:       ; 
+000000B4: F092  ;         bal move_poll
+000000B5:       ; 
+000000B5: FF03  ; blue           DEFW 0xFF03
+000000B6:       ; 
+000000B6:       ; paint_blue
+000000B6:       ;         ; sound
+000000B6: D2E7  ;         ld r2, buzz_add_4
+000000B7: D3E5  ;         ld r3, sound_4
+000000B8: DB40  ;         st r3, [r2]
+000000B9:       ; 
+000000B9: D3FB  ;         ld r3, blue
+000000BA: DB20  ;         st r3, [r1]
+000000BB: 1301  ;         add r3, r0, #1
+000000BC:       ; 
+000000BC: F08A  ;         bal move_poll
+000000BD:       ; 
+000000BD: F13F  ; sound_4         DEFW 0xF13F
+000000BE: FF92  ; buzz_add_4              DEFW 0xFF92
+000000BF:       ; 
+000000BF:       ; paint_white
+000000BF:       ;         ; sound
+000000BF: D2FE  ;         ld r2, buzz_add_4
+000000C0: D3FC  ;         ld r3, sound_4
+000000C1: DB40  ;         st r3, [r2]
+000000C2:       ; 
+000000C2: D3E3  ;         ld r3, white_paint
+000000C3: DB20  ;         st r3, [r1]
+000000C4: 1301  ;         add r3, r0, #1
+000000C5:       ; 
+000000C5: F081  ;         bal move_poll
+000000C6:       ; 
+000000C6: FFFF  ; white_paint     DEFW 0xFFFF
+
+Symbol Table: Labels
+: start_point                       00000003  Local --
+: display_start                     00000004  Local --
+: display_end                       00000005  Local --
+: init_led                          00000006  Local --
+: P                                 0000000C  Local --
+: display                           0000000D  Local --
+: write                             0000000E  Local --
+: end_point                         0000002D  Local --
+: clear                             0000002E  Local --
+: white                             00000035  Local --
+: start                             00000036  Local --
+: level_one                         00000037  Local --
+: player_start                      0000003E  Local --
+: switches_read                     0000003F  Local --
+: compare_init                      00000040  Local --
+: pc_store                          00000041  Local --
+: delay_limit                       00000042  Local --
+: delay_val                         00000046  Local --
+: move_poll                         00000047  Local --
+: sound_1                           0000005C  Local --
+: buzz_add_1                        0000005D  Local --
+: add_down                          0000005E  Local --
+: add_right                         00000069  Local --
+: white_down                        00000074  Local --
+: sound_2                           00000075  Local --
+: buzz_add_2                        00000076  Local --
+: erase                             00000077  Local --
+: add_left                          00000079  Local --
+: white_up                          00000084  Local --
+: add_up                            00000085  Local --
+: sound_3                           00000090  Local --
+: buzz_add_3                        00000091  Local --
+: keypad_read                       00000092  Local --
+: compare_col                       00000093  Local --
+: col_poll                          00000094  Local --
+: green                             000000A3  Local --
+: sound_5                           000000A4  Local --
+: buzz_add_5                        000000A5  Local --
+: paint_green                       000000A6  Local --
+: red                               000000AD  Local --
+: paint_red                         000000AE  Local --
+: blue                              000000B5  Local --
+: paint_blue                        000000B6  Local --
+: sound_4                           000000BD  Local --
+: buzz_add_4                        000000BE  Local --
+: paint_white                       000000BF  Local --
+: white_paint                       000000C6  Local --

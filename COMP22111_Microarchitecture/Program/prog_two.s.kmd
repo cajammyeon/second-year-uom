@@ -1,0 +1,98 @@
+KMD
+00000000:       ; org 0
+00000000:       ; 
+00000000: F002  ; bal poll_read
+00000001:       ; 
+00000001:       ; ; r1 poll pointer (destructible outside poll)
+00000001:       ; ; r2 value from poll (destructible outside poll)
+00000001:       ; ; r3 compare value (destructible outside poll)
+00000001:       ; ; r4 value after comparison (destructible outside poll)
+00000001:       ; ; r5 
+00000001:       ; ; r6 pc address at time (destructible until input_process)
+00000001:       ; 
+00000001: 0200  ; nincompare     DEFW 0x0200
+00000002: FF94  ; keypad         DEFW 0xFF94
+00000003:       ; 
+00000003:       ; poll_read
+00000003: D1FE  ;         ld r1, keypad
+00000004: D220  ;         ld r2, [r1]
+00000005:       ;         
+00000005:       ;         ; check value 9
+00000005: D3FB  ;         ld r3, nincompare
+00000006: 844C  ;         and r4, r2, r3
+00000007: 4C8C  ;         subs r4, r4, r3
+00000008: 06E0  ;         mov r6, pc
+00000009: F727  ;         beq input_process
+0000000A:       ; 
+0000000A:       ;         ; check value 8
+0000000A: A362  ;         or r3, r3, r0, ror
+0000000B: 844C  ;         and r4, r2, r3
+0000000C: 4C8C  ;         subs r4, r4, r3
+0000000D: 06E0  ;         mov r6, pc
+0000000E: F722  ;         beq input_process
+0000000F:       ; 
+0000000F:       ;         ; check value 7
+0000000F: A362  ;         or r3, r3, r0, ror
+00000010: 844C  ;         and r4, r2, r3
+00000011: 4C8C  ;         subs r4, r4, r3
+00000012: F71E  ;         beq input_process
+00000013:       ; 
+00000013:       ;         ; check value 6
+00000013: A362  ;         or r3, r3, r0, ror
+00000014: 844C  ;         and r4, r2, r3
+00000015: 4C8C  ;         subs r4, r4, r3
+00000016: F71A  ;         beq input_process
+00000017:       ; 
+00000017:       ;         ; check value 5
+00000017: A362  ;         or r3, r3, r0, ror
+00000018: 844C  ;         and r4, r2, r3
+00000019: 4C8C  ;         subs r4, r4, r3
+0000001A: F716  ;         beq input_process
+0000001B:       ; 
+0000001B:       ;         ; check value 4
+0000001B: A362  ;         or r3, r3, r0, ror
+0000001C: 844C  ;         and r4, r2, r3
+0000001D: 4C8C  ;         subs r4, r4, r3
+0000001E: F712  ;         beq input_process
+0000001F:       ; 
+0000001F:       ;         ; check value 3
+0000001F: A362  ;         or r3, r3, r0, ror
+00000020: 844C  ;         and r4, r2, r3
+00000021: 4C8C  ;         subs r4, r4, r3
+00000022: F70E  ;         beq input_process
+00000023:       ; 
+00000023:       ;         ; check value 2
+00000023: A362  ;         or r3, r3, r0, ror
+00000024: 844C  ;         and r4, r2, r3
+00000025: 4C8C  ;         subs r4, r4, r3
+00000026: F70A  ;         beq input_process
+00000027:       ; 
+00000027:       ;         ; check value 1
+00000027: A362  ;         or r3, r3, r0, ror
+00000028: 844C  ;         and r4, r2, r3
+00000029: 4C8C  ;         subs r4, r4, r3
+0000002A: F706  ;         beq input_process
+0000002B:       ; 
+0000002B:       ;         ; check value 0
+0000002B: A362  ;         or r3, r3, r0, ror
+0000002C: 844C  ;         and r4, r2, r3
+0000002D: 4C8C  ;         subs r4, r4, r3
+0000002E: F702  ;         beq input_process
+0000002F:       ; 
+0000002F: F0D3  ;         bal poll_read
+00000030:       ; 
+00000030: 0000  ; keypad_val DEFW 0
+00000031:       ; 
+00000031:       ; input_process
+00000031:       ; 
+00000031: 0000  ; input      DEFW 0
+00000032: 0000  ; jump_back  DEFW 0x0000
+
+Symbol Table: Labels
+: nincompare                        00000001  Local --
+: keypad                            00000002  Local --
+: poll_read                         00000003  Local --
+: keypad_val                        00000030  Local --
+: input_process                     00000031  Local --
+: input                             00000031  Local --
+: jump_back                         00000032  Local --

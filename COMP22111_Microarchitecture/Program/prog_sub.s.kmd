@@ -1,0 +1,58 @@
+KMD
+00000000:       ; org 0
+00000000:       ; 
+00000000:       ; ; r1 led pointer
+00000000:       ; ; r2 led write value
+00000000:       ; ; r3
+00000000:       ; ; r4
+00000000:       ; ; r5 return address
+00000000:       ; 
+00000000: D1E3  ; ld r1, led
+00000001: D2E3  ; ld r2, try
+00000002: D4E3  ; ld r4, endLine
+00000003:       ; 
+00000003: F009  ; bal write_to_clear
+00000004:       ; 
+00000004: FF00  ; led             DEFW 0xFF00
+00000005: FFFF  ; try             DEFW 0xFFFF
+00000006: FF40  ; endLine         DEFW 0xFF40
+00000007: 5000  ; delay_val       DEFW 0x5000
+00000008: 0000  ; pc_store        DEFW 0x0000
+00000009:       ; 
+00000009:       ; delay_limit
+00000009: 5DA1  ;         subs r5, r5, #1
+0000000A: F6FE  ;         bne delay_limit
+0000000B:       ; 
+0000000B:       ;         ; return to caller + 1
+0000000B: D5FC  ;         ld r5, pc_store
+0000000C: 17A1  ;         add pc, r5, #1
+0000000D:       ; 
+0000000D:       ; write_to_clear
+0000000D: DA20  ;         st r2, [r1]
+0000000E: 1121  ;         add r1, r1, #1
+0000000F: 4B84  ;         subs r3, r4, r1
+00000010: F705  ;         beq stop
+00000011:       ; 
+00000011:       ;         ; call program delay
+00000011: D5F5  ;         ld r5, delay_val
+00000012: DFF5  ;         st pc, pc_store
+00000013: F0F5  ;         bal delay_limit
+00000014:       ; 
+00000014:       ;         ; clear back pixel
+00000014: D83F  ;         st r0, [r1, #-1]
+00000015:       ; 
+00000015:       ;         ; loop
+00000015: F0F7  ;         bal write_to_clear
+00000016:       ; 
+00000016:       ; stop
+00000016: D83F  ;         st r0, [r1, #-1]
+
+Symbol Table: Labels
+: led                               00000004  Local --
+: try                               00000005  Local --
+: endLine                           00000006  Local --
+: delay_val                         00000007  Local --
+: pc_store                          00000008  Local --
+: delay_limit                       00000009  Local --
+: write_to_clear                    0000000D  Local --
+: stop                              00000016  Local --

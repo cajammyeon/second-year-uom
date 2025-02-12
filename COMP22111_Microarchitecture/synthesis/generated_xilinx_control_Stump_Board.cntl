@@ -1,0 +1,1 @@
+run     -iob FALSE -ifn /home/s61110ab/Questa/COMP22111/synthesis/generated_verilog_source_Stump_Board.list  -ifmt mixed -top Stump_Board -ofn Stump_Board.ngc  -ofmt NGC -p xc6slx4-cpg196-2 -opt_mode Speed -opt_level 1 -iobuf no -signal_encoding user -fsm_encoding user 

@@ -1,0 +1,13 @@
+verilog work /home/s61110ab/Questa/COMP22111/src/fpga/ackie.v
+verilog work /home/s61110ab/Questa/COMP22111/src/fpga/emulated_uart.v
+verilog work /home/s61110ab/Questa/COMP22111/src/GLIB/glbl.v
+verilog work /home/s61110ab/Questa/COMP22111/src/Stump/Stump.v
+verilog work /home/s61110ab/Questa/COMP22111/src/Stump/Stump_ALU.v
+verilog work /home/s61110ab/Questa/COMP22111/src/Stump/Stump_Board.v
+verilog work /home/s61110ab/Questa/COMP22111/src/Stump/Stump_control.v
+verilog work /home/s61110ab/Questa/COMP22111/src/Stump/Stump_control_decode.v
+verilog work /home/s61110ab/Questa/COMP22111/src/Stump/Stump_datapath.v
+verilog work /home/s61110ab/Questa/COMP22111/src/Stump/Stump_FSM.v
+verilog work /home/s61110ab/Questa/COMP22111/src/Stump/Stump_Memory.v
+verilog work /home/s61110ab/Questa/COMP22111/src/Stump/Stump_registers.v
+verilog work /home/s61110ab/Questa/COMP22111/src/Stump/Stump_shifter.v

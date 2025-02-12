@@ -1,0 +1,550 @@
+m255
+K4
+z2
+Z0 !s12c _opt2
+Z1 !s99 nomlopt
+Z2 !s12c _opt
+R1
+R2
+R1
+R0
+R1
+R0
+R1
+R0
+R1
+R0
+R1
+R0
+R1
+Z3 !s12c _opt1
+R1
+R3
+R1
+R0
+R1
+R0
+R1
+R0
+R1
+R0
+R1
+R0
+R1
+R0
+R1
+R0
+R1
+R0
+R1
+R0
+R1
+R0
+R1
+R2
+R1
+R3
+R1
+R3
+R1
+R3
+R1
+R3
+R1
+R3
+R1
+R3
+R1
+R3
+R1
+R3
+R1
+R3
+R1
+R3
+R1
+R3
+R1
+R3
+R1
+R3
+R1
+R0
+R1
+R3
+R1
+R0
+R1
+R3
+R1
+R2
+R1
+!s11f vlog 2023.4 2023.10, Oct  9 2023
+13
+!s112 1.1
+!i10d 8192
+!i10e 25
+!i10f 100
+cModel Technology
+Z4 d/home/s61110ab/Questa/COMP22111
+T_opt
+!s110 1730807638
+VlUALkzDZB<F`beAR]XL`_2
+04 11 4 work Stump_Board fast 0
+Z5 04 4 4 GLIB glbl fast 0
+=1-6c4b90ee2b57-672a0755-2a122-186a22
+R1
+Z6 !s12f OEM100
+Z7 !s12b OEM100
+Z8 !s124 OEM100
+o-quiet -auto_acc_if_foreign -work STUMP -L fpga -L unisims -L fpga
+Z9 tCvgOpt 0
+n@_opt
+Z10 OL;O;2023.4;77
+R4
+T_opt1
+!s110 1730804118
+VzoS4]^7gn4TX>j_@EDdYS0
+04 19 4 work Stump_ALU_Testbench fast 0
+R5
+=1-6c4b90ee2b57-6729f996-de33-174440
+R1
+R6
+R7
+R8
+Z11 o-quiet -auto_acc_if_foreign -work Stump -L unisims -L fpga +acc
+R9
+n@_opt1
+R10
+R4
+T_opt2
+!s110 1731421432
+Vi[lPCl?FfnY2M?TPJD;DO1
+04 15 4 work Stump_Testbench fast 0
+R5
+=1-902e16e90d73-673364f5-7195b-3adc4f
+R1
+R6
+R7
+R8
+R11
+R9
+n@_opt2
+R10
+R4
+vStump
+2./src/Stump/Stump.v
+!s110 1731661786
+!i10b 1
+!s100 VL[XH2jHOlmkWPCVk8LYS0
+ImO69>8iC8dAlMdJbmD5Z00
+R4
+Z12 w1728641953
+8./src/Stump/Stump.v
+F./src/Stump/Stump.v
+!i122 958
+L0 12 53
+Z13 VDg1SIo80bB@j0V0VzS_@n1
+Z14 OL;L;2023.4;77
+r1
+!s85 0
+31
+Z15 !s108 1731661785.000000
+!s107 ./src/Stump/Stump_definitions.v|./src/Stump/Stump.v|
+!s90 -reportprogress|300|-lint|-cover|bcsxf|./src/Stump/Stump.v|
+!s101 -O0
+!i113 0
+Z16 !s102 -cover bcsxf
+Z17 o-O0 -lint -cover bcsxf
+Z18 tShow_source 1 DisableOpt 1 CoverOpt 1 CvgOpt 0
+n@stump
+vStump_ALU
+2./src/Stump/Stump_ALU.v
+Z19 !s110 1731661781
+!i10b 1
+!s100 emGi]Hb1<>i<=NL9HU]160
+IV7>zgU4dh^WYe3R:@Dioc3
+R4
+w1730807617
+8./src/Stump/Stump_ALU.v
+F./src/Stump/Stump_ALU.v
+!i122 944
+L0 22 116
+R13
+R14
+r1
+!s85 0
+31
+Z20 !s108 1731661781.000000
+!s107 ./src/Stump/Stump_definitions.v|./src/Stump/Stump_ALU.v|
+!s90 -reportprogress|300|-lint|-cover|bcsxf|./src/Stump/Stump_ALU.v|
+!s101 -O0
+!i113 0
+R16
+R17
+R18
+n@stump_@a@l@u
+vStump_ALU_Testbench
+2./src/Stump/Stump_ALU_Testbench.v
+R19
+!i10b 1
+!s100 PNz`S`aej@G?UIaAKiBNk3
+I>Ge^c0`Z3]j:h9U=Oe7No2
+R4
+R12
+8./src/Stump/Stump_ALU_Testbench.v
+F./src/Stump/Stump_ALU_Testbench.v
+!i122 943
+L0 12 119
+R13
+R14
+r1
+!s85 0
+31
+!s108 1731661779.000000
+!s107 ./src/Stump/Stump_definitions.v|./src/Stump/Stump_ALU_Testbench.v|
+!s90 -reportprogress|300|-lint|-cover|bcsxf|./src/Stump/Stump_ALU_Testbench.v|
+!s101 -O0
+!i113 0
+R16
+R17
+R18
+n@stump_@a@l@u_@testbench
+vStump_Board
+2./src/Stump/Stump_Board.v
+Z21 !s110 1731661782
+!i10b 1
+!s100 @VR[Qem:7AHWc12Q]nMM23
+IZXQjC[dO;izOZ]8YIL]Z_1
+R4
+R12
+8./src/Stump/Stump_Board.v
+F./src/Stump/Stump_Board.v
+!i122 945
+L0 12 332
+R13
+R14
+r1
+!s85 0
+31
+R20
+!s107 ./src/Stump/Stump_Board.v|
+!s90 -reportprogress|300|-lint|-cover|bcsxf|./src/Stump/Stump_Board.v|
+!s101 -O0
+!i113 0
+R16
+R17
+R18
+n@stump_@board
+vStump_control
+2./src/Stump/Stump_control.v
+R21
+!i10b 1
+!s100 QzNBEU_d:[PA?kSa[zK@W1
+IIWHBhFPW??Q@la512TlVI3
+R4
+w1729245698
+8./src/Stump/Stump_control.v
+F./src/Stump/Stump_control.v
+!i122 947
+L0 14 60
+R13
+R14
+r1
+!s85 0
+31
+Z22 !s108 1731661782.000000
+!s107 ./src/Stump/Stump_definitions.v|./src/Stump/Stump_control.v|
+!s90 -reportprogress|300|-lint|-cover|bcsxf|./src/Stump/Stump_control.v|
+!s101 -O0
+!i113 0
+R16
+R17
+R18
+n@stump_control
+vStump_control_decode
+2./src/Stump/Stump_control_decode.v
+R21
+!i10b 1
+!s100 :iej>f:@I89NkHiS7RoLU3
+IUoVH<6UWIMN21n1SiYQRb0
+R4
+w1730807070
+8./src/Stump/Stump_control_decode.v
+F./src/Stump/Stump_control_decode.v
+!i122 946
+L0 19 242
+R13
+R14
+r1
+!s85 0
+31
+R22
+!s107 ./src/Stump/Stump_definitions.v|./src/Stump/Stump_control_decode.v|
+!s90 -reportprogress|300|-lint|-cover|bcsxf|./src/Stump/Stump_control_decode.v|
+!s101 -O0
+!i113 0
+R16
+R17
+R18
+n@stump_control_decode
+vStump_datapath
+2./src/Stump/Stump_datapath.v
+Z23 !s110 1731661783
+!i10b 1
+!s100 GX2_M]LBh<DRm^n5DCO?k1
+I:6Uc:dWU]jC?k30J;;Mdh2
+R4
+R12
+8./src/Stump/Stump_datapath.v
+F./src/Stump/Stump_datapath.v
+!i122 948
+L0 16 60
+R13
+R14
+r1
+!s85 0
+31
+R22
+!s107 ./src/Stump/Stump_definitions.v|./src/Stump/Stump_datapath.v|
+!s90 -reportprogress|300|-lint|-cover|bcsxf|./src/Stump/Stump_datapath.v|
+!s101 -O0
+!i113 0
+R16
+R17
+R18
+n@stump_datapath
+vStump_FSM
+2./src/Stump/Stump_FSM.v
+R23
+!i10b 1
+!s100 :k6]m];O242P7bX7Oc11V1
+Ij49f;8?m=[nOT8[D9@B8Z3
+R4
+R12
+8./src/Stump/Stump_FSM.v
+F./src/Stump/Stump_FSM.v
+!i122 949
+L0 15 28
+R13
+R14
+r1
+!s85 0
+31
+Z24 !s108 1731661783.000000
+!s107 ./src/Stump/Stump_definitions.v|./src/Stump/Stump_FSM.v|
+!s90 -reportprogress|300|-lint|-cover|bcsxf|./src/Stump/Stump_FSM.v|
+!s101 -O0
+!i113 0
+R16
+R17
+R18
+n@stump_@f@s@m
+vStump_Memory
+2./src/Stump/Stump_Memory.v
+R23
+!i10b 1
+!s100 <`fl7XehKZZ474?^P@a?z1
+IK4`YJFaeCRGzN3Vg65j>00
+R4
+R12
+8./src/Stump/Stump_Memory.v
+F./src/Stump/Stump_Memory.v
+!i122 950
+L0 18 1528
+R13
+R14
+r1
+!s85 0
+31
+R24
+!s107 ./src/Stump/Stump_Memory.v|
+!s90 -reportprogress|300|-lint|-cover|bcsxf|./src/Stump/Stump_Memory.v|
+!s101 -O0
+!i113 0
+R16
+R17
+R18
+n@stump_@memory
+vStump_mux16bit
+2./src/Stump/Stump_mux16bit.v
+Z25 !s110 1731661784
+!i10b 1
+!s100 a^4GkVSb]C;0lfE>zXcKR0
+I1;nY;E5jNCLbOEO0VT:cU3
+R4
+R12
+8./src/Stump/Stump_mux16bit.v
+F./src/Stump/Stump_mux16bit.v
+!i122 951
+L0 6 15
+R13
+R14
+r1
+!s85 0
+31
+R24
+!s107 ./src/Stump/Stump_mux16bit.v|
+!s90 -reportprogress|300|-lint|-cover|bcsxf|./src/Stump/Stump_mux16bit.v|
+!s101 -O0
+!i113 0
+R16
+R17
+R18
+n@stump_mux16bit
+vStump_reg16bit
+2./src/Stump/Stump_reg16bit.v
+R25
+!i10b 1
+!s100 N10RT32^;^5MP;6kzFEA@1
+I5RUga9BBHP1Uc0RRHMGFW3
+R4
+R12
+8./src/Stump/Stump_reg16bit.v
+F./src/Stump/Stump_reg16bit.v
+!i122 952
+Z26 L0 6 13
+R13
+R14
+r1
+!s85 0
+31
+Z27 !s108 1731661784.000000
+!s107 ./src/Stump/Stump_reg16bit.v|
+!s90 -reportprogress|300|-lint|-cover|bcsxf|./src/Stump/Stump_reg16bit.v|
+!s101 -O0
+!i113 0
+R16
+R17
+R18
+n@stump_reg16bit
+vStump_reg4bit
+2./src/Stump/Stump_reg4bit.v
+R25
+!i10b 1
+!s100 g1@5BO_E3R]@]R1HI<jnS0
+ICL:3iI_CiT:4lFYZGGcUL0
+R4
+Z28 w1728641954
+8./src/Stump/Stump_reg4bit.v
+F./src/Stump/Stump_reg4bit.v
+!i122 953
+R26
+R13
+R14
+r1
+!s85 0
+31
+R27
+!s107 ./src/Stump/Stump_reg4bit.v|
+!s90 -reportprogress|300|-lint|-cover|bcsxf|./src/Stump/Stump_reg4bit.v|
+!s101 -O0
+!i113 0
+R16
+R17
+R18
+n@stump_reg4bit
+vStump_registers
+2./src/Stump/Stump_registers.v
+Z29 !s110 1731661785
+!i10b 1
+!s100 VLzQFebO?<6MXo<BbnXOi2
+I>V[`0[==OVlQMz2fnIXSn1
+R4
+R28
+8./src/Stump/Stump_registers.v
+F./src/Stump/Stump_registers.v
+!i122 954
+L0 5 52
+R13
+R14
+r1
+!s85 0
+31
+R27
+!s107 ./src/Stump/Stump_registers.v|
+!s90 -reportprogress|300|-lint|-cover|bcsxf|./src/Stump/Stump_registers.v|
+!s101 -O0
+!i113 0
+R16
+R17
+R18
+n@stump_registers
+vStump_shifter
+2./src/Stump/Stump_shifter.v
+R29
+!i10b 1
+!s100 LD5]0SKX4>MF4O[F7GgzV3
+IKJ[dR:HDOUzPDkVkB3a2^3
+R4
+R28
+8./src/Stump/Stump_shifter.v
+F./src/Stump/Stump_shifter.v
+!i122 955
+L0 8 71
+R13
+R14
+r1
+!s85 0
+31
+R15
+!s107 ./src/Stump/Stump_shifter.v|
+!s90 -reportprogress|300|-lint|-cover|bcsxf|./src/Stump/Stump_shifter.v|
+!s101 -O0
+!i113 0
+R16
+R17
+R18
+n@stump_shifter
+vStump_sign_extender
+2./src/Stump/Stump_sign_extender.v
+R29
+!i10b 1
+!s100 OBW:OI7g7k=W4_7FN5FkX3
+Ii<NH^T14m>2<`QYLebGn[3
+R4
+R28
+8./src/Stump/Stump_sign_extender.v
+F./src/Stump/Stump_sign_extender.v
+!i122 956
+L0 5 16
+R13
+R14
+r1
+!s85 0
+31
+R15
+!s107 ./src/Stump/Stump_sign_extender.v|
+!s90 -reportprogress|300|-lint|-cover|bcsxf|./src/Stump/Stump_sign_extender.v|
+!s101 -O0
+!i113 0
+R16
+R17
+R18
+n@stump_sign_extender
+vStump_Testbench
+2./src/Stump/Stump_Testbench.v
+R29
+!i10b 1
+!s100 Xl]T49KhF?iIfA4Z?f2Ec3
+IeMCn3LYajd;cVMTG=^Q_z3
+R4
+w1730806684
+8./src/Stump/Stump_Testbench.v
+F./src/Stump/Stump_Testbench.v
+!i122 957
+L0 11 100
+R13
+R14
+r1
+!s85 0
+31
+R15
+!s107 ./src/Stump/Stump_Testbench.v|
+!s90 -reportprogress|300|-lint|-cover|bcsxf|./src/Stump/Stump_Testbench.v|
+!s101 -O0
+!i113 0
+R16
+R17
+R18
+n@stump_@testbench

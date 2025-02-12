@@ -1,0 +1,32 @@
+KMD
+00000000:       ;                 org     0
+00000000:       ; 
+00000000: D1EA  ;                 ld   r1, op_A
+00000001: D2EA  ;                 ld   r2, op_B
+00000002: F001  ;                 bra  loop
+00000003:       ; 
+00000003: 4128  ; A_greater       sub  r1, r1, r2
+00000004:       ; 
+00000004: 4828  ; loop            cmp  r1, r2
+00000005: FEFD  ;                 bgt  A_greater
+00000006: F702  ;                 beq  stop
+00000007:       ; 
+00000007: 4244  ;                 sub  r2, r2, r1         ; B_greater
+00000008: F0FB  ;                 bra  loop
+00000009:       ; stop
+00000009: D9E3  ; st   r1, result                         
+0000000A:       ; 
+0000000A: F0FF  ;                 bra  .
+0000000B:       ; 
+0000000B:       ; 
+0000000B: 0042  ; op_A            defw 66
+0000000C: 0027  ; op_B            defw 39
+0000000D: 0000  ; result          defw  0
+
+Symbol Table: Labels
+: A_greater                         00000003  Local --
+: loop                              00000004  Local --
+: stop                              00000009  Local --
+: op_A                              0000000B  Local --
+: op_B                              0000000C  Local --
+: result                            0000000D  Local --

@@ -1,0 +1,61 @@
+m255
+K4
+z2
+!s11f vlog 2023.4 2023.10, Oct  9 2023
+13
+!s112 1.1
+!i10d 8192
+!i10e 25
+!i10f 100
+cModel Technology
+Z0 d/home/s61110ab/Questa/COMP22111
+vackie
+2./src/fpga/ackie.v
+Z1 !s110 1731063272
+!i10b 1
+!s100 2PV?8DOMc<[`>bZJm2a0J3
+I]^XlWP73MST`Oa82=Hnc42
+R0
+Z2 w1728641954
+8./src/fpga/ackie.v
+F./src/fpga/ackie.v
+!i122 150
+L0 66 542
+Z3 VDg1SIo80bB@j0V0VzS_@n1
+Z4 OL;L;2023.4;77
+r1
+!s85 0
+31
+!s108 1731063271.000000
+!s107 ./src/fpga/ackie.v|
+!s90 -reportprogress|300|-lint|-cover|bcsxf|./src/fpga/ackie.v|
+!s101 -O0
+!i113 0
+Z5 !s102 -cover bcsxf
+Z6 o-O0 -lint -cover bcsxf
+Z7 tShow_source 1 DisableOpt 1 CoverOpt 1 CvgOpt 0
+vemulated_uart
+2./src/fpga/emulated_uart.v
+R1
+!i10b 1
+!s100 j]4ROYhi5i399L^BB[[bh2
+INO>XnW:23kKXRCja=C4Ud0
+R0
+R2
+8./src/fpga/emulated_uart.v
+F./src/fpga/emulated_uart.v
+!i122 151
+L0 4 92
+R3
+R4
+r1
+!s85 0
+31
+!s108 1731063272.000000
+!s107 ./src/fpga/emulated_uart.v|
+!s90 -reportprogress|300|-lint|-cover|bcsxf|./src/fpga/emulated_uart.v|
+!s101 -O0
+!i113 0
+R5
+R6
+R7

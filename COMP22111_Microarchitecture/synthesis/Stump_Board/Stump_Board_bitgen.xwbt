@@ -1,0 +1,7 @@
+INFILE=/home/s61110ab/Questa/COMP22111/synthesis/Stump_Board/Stump_Board.ncd
+OUTFILE=/home/s61110ab/Questa/COMP22111/synthesis/Stump_Board/Stump_Board.bit
+FAMILY=Spartan6
+PART=xc6slx4-2cpg196
+WORKINGDIR=/home/s61110ab/Questa/COMP22111/synthesis/Stump_Board
+LICENSE=ISE
+USER_INFO=174117186_174117187_210717993_729
