@@ -1,0 +1,209 @@
+<html>
+    <head>
+        <style>
+            body {
+                margin: 0;
+                overflow: hidden;
+            }
+        </style>
+    </head>
+    <body>
+        <script type="module">
+            import * as THREE from "https://web.cs.manchester.ac.uk/three/three.js-master/build/three.module.js";
+            import {OrbitControls} from "https://web.cs.manchester.ac.uk/three/three.js-master/examples/jsm/controls/OrbitControls.js";
+
+            // objects declaration
+            let camera, scene, renderer;
+            let sunGeometry, sunMaterial, sunMesh;
+            let earthGeometry, earthMaterial, earthMesh;
+            let cloudGeometry, cloudMaterial, cloudMesh;
+            let moonGeometry, moonMaterial, moonMesh;
+            let pointLight, ambientLight;
+            let earthSystem;
+
+            // moon orbit parameter
+            let orbitRadius = 50;
+            let moonAngle = 0;
+            let moonOrbitSpeed = 50;
+
+            // earth orbit parameter
+            let earthOrbit = 200;
+            let earthAngle = 0;
+            let earthOrbitSpeed = 0.0001;
+
+            // elliptical orbit
+            let orbitPath, orbitGeometry, orbitMaterial, orbitLine;
+            let ellipse;
+            
+            // background object
+            let backGeometry, backMaterial, backMesh;
+
+            // orbitControl
+            let controls;
+
+            // loader object
+            let loader;
+
+            init();
+            // axis_help();
+            create_objects();
+            ellipse_object();
+            background_star();
+            light_insert();
+            animate();
+
+            function init() {
+                // scene - put the objects on the screen
+                // perspective camera - allows the objects to be viewed with perspective
+                // renderer - render the objects
+                scene = new THREE.Scene();
+                camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
+                renderer = new THREE.WebGLRenderer();
+
+                // camera setup
+                camera.position.set(0, 30, 500);
+                camera.far = 10000;
+                camera.updateProjectionMatrix();
+
+                // renderer setup
+                renderer.setClearColor(0x000000, 1.0);
+                renderer.setSize(window.innerWidth, window.innerHeight);
+                renderer.outputColorSpace = THREE.SRGBColorSpace;
+                renderer.shadowMap.enabled = true;
+                renderer.shadowMap.type = THREE.PCFSoftShadowMap; 
+
+                // controls setup
+                controls = new OrbitControls(camera, renderer.domElement);
+                controls.autoRotate = true;
+
+                // include in document
+                document.body.appendChild(renderer.domElement);
+            }
+
+            function axis_help() {
+                // axes helper
+                const axes = new THREE.AxesHelper(400);
+                scene.add(axes);
+            }
+
+            function create_objects() {
+
+                // texture loader initialisation
+                loader = new THREE.TextureLoader();
+
+                // add sun object
+                const sunTexture = loader.load("https://www.solarsystemscope.com/textures/download/2k_sun.jpg");
+                sunGeometry = new THREE.SphereGeometry(109, 400, 200);
+                sunMaterial = new THREE.MeshStandardMaterial({
+                    emissive: 0xffd700,
+                    emissiveMap: sunTexture,
+                    emissiveIntensity: 1,
+                    wireframe: false
+                });
+                sunMesh = new THREE.Mesh(sunGeometry, sunMaterial);
+                scene.add(sunMesh);
+
+                // add earth object
+                const earthTexture = loader.load("https://upload.wikimedia.org/wikipedia/commons/a/ac/Earthmap1000x500.jpg");
+                earthGeometry = new THREE.SphereGeometry(25, 50, 50);
+                earthMaterial = new THREE.MeshPhongMaterial({
+                    map: earthTexture
+                });
+                earthMesh = new THREE.Mesh(earthGeometry, earthMaterial);
+                earthMesh.castShadow = true;
+                earthMesh.receiveShadow = true;
+
+                // add cloud layer
+                const cloudTexture = loader.load("https://i.stack.imgur.com/B3c7G.jpg");
+                cloudGeometry = new THREE.SphereGeometry(26, 50, 50);
+                cloudMaterial = new THREE.MeshStandardMaterial({
+                    map: cloudTexture,
+                    transparent: true,
+                    opacity: 0.7
+                });
+                cloudMesh = new THREE.Mesh(cloudGeometry, cloudMaterial);
+                
+                // add moon object
+                const moonTexture = loader.load("https://svs.gsfc.nasa.gov/vis/a000000/a004700/a004720/lroc_color_poles_1k.jpg");
+                moonGeometry = new THREE.SphereGeometry(5, 40, 20);
+                moonMaterial = new THREE.MeshPhongMaterial({
+                    map: moonTexture
+                });
+                moonMesh = new THREE.Mesh(moonGeometry, moonMaterial);
+                moonMesh.castShadow = true;
+                moonMesh.receiveShadow = true;
+
+                // combine moon and earth into the same system -> insert
+                earthSystem = new THREE.Group();
+                earthSystem.add(earthMesh);
+                earthSystem.add(moonMesh);
+                earthSystem.add(cloudMesh);
+                scene.add(earthSystem);
+            }
+
+            function ellipse_object() {
+                ellipse = new THREE.EllipseCurve(50, 0, 450, 300, 0, 2 * Math.PI, false, 0);
+                
+
+                orbitPath = new THREE.Path(ellipse.getPoints(100));
+                orbitGeometry = new THREE.BufferGeometry().setFromPoints(orbitPath.getPoints());
+                orbitMaterial = new THREE.LineBasicMaterial({color: 0xff0000});
+                orbitLine = new THREE.Line(orbitGeometry, orbitLine);
+                orbitLine.rotation.x = Math.PI / 2;
+
+                scene.add(orbitLine);
+            }
+
+            function light_insert(params) {
+                // add nur to the space
+                pointLight = new THREE.PointLight(0xffffff, 5, 1400, 2);
+                pointLight.position.set(0, 0, 0);
+                pointLight.castShadow = true;
+                scene.add(pointLight);
+
+                ambientLight = new THREE.AmbientLight(0xffffff, 0.1);
+                scene.add(ambientLight);
+            }
+
+            function background_star() {
+                const backTexture = loader.load("https://cdn.eso.org/images/screen/eso0932a.jpg");
+                backGeometry = new THREE.SphereGeometry(1000, 32, 32);
+                backMaterial = new THREE.MeshPhongMaterial({
+                    map: backTexture,
+                    side: THREE.DoubleSide
+                });
+                backMesh = new THREE.Mesh(backGeometry, backMaterial);
+                scene.add(backMesh);
+            }
+
+            function animate() {
+                requestAnimationFrame(animate);
+
+                var time = earthOrbitSpeed * performance.now();
+                const worldZAxis = new THREE.Vector3(0, 1, 0);
+
+                // moon orbiting earth
+                moonMesh.position.x = orbitRadius * Math.cos(time * moonOrbitSpeed);
+                moonMesh.position.z = orbitRadius * Math.sin(time * moonOrbitSpeed);
+
+                // earthSystem orbiting sun
+                const position = ellipse.getPoint(time);
+                earthSystem.position.set(position.x, 0, position.y);
+
+                // sun rotation on axis
+                sunMesh.rotateOnWorldAxis(worldZAxis, (0.01));
+
+                // earth rotation on axis
+                earthMesh.rotateOnWorldAxis(worldZAxis, (0.1));
+
+                // moon rotation on axis
+                moonMesh.rotateOnWorldAxis(worldZAxis, (0.01))
+
+                // cloud rotation on axis
+                cloudMesh.rotateOnWorldAxis(worldZAxis, (0.01));
+
+                renderer.render(scene, camera);
+            }
+        </script>
+    </body>
+</html>

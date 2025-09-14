@@ -1,0 +1,1 @@
+g++ histogram.cpp -o histogram `pkg-config --cflags --libs opencv4`

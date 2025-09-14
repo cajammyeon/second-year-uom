@@ -1,0 +1,100 @@
+<html>
+    <head>
+        <style>
+            body {
+                margin: 0;
+                overflow: hidden;
+            }
+        </style>
+    </head>
+    <body>
+        <script type="module">
+            import * as THREE from "https://web.cs.manchester.ac.uk/three/three.js-master/build/three.module.js";
+
+            let camera, scene, renderer, mesh;
+            let orbitRadius = 2;
+            let angle = 0;
+            let orbitSpeed = 0.1;
+
+            // call to init
+            init();
+
+            // call the function to define the object
+            shaderCube();
+
+            // call animation function
+            animate();
+
+            function init() {
+                // scene - put the objects on the screen
+                // perspective camera - allows the objects to be viewed with perspective
+                // rederer - render the objects
+                scene = new THREE.Scene();
+                camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
+                renderer = new THREE.WebGLRenderer();
+
+                // camera setup
+                camera.position.z = 5;
+
+                // renderer setup
+                renderer.setClearColor(0x000000, 1.0);
+                renderer.setSize(window.innerWidth, window.innerHeight);
+                document.body.appendChild(renderer.domElement);
+            }
+
+            // define the object - in this case, a cube
+            function shaderCube() {
+                // define the object shape and material
+                var geometry = new THREE.BoxGeometry(2, 1, 1);
+                var material = new THREE.ShaderMaterial({
+                    fragmentShader: fragmentShader(),
+                    vertexShader: vertexShader()
+                });
+
+                // add object into scene
+                mesh = new THREE.Mesh(geometry, material);
+                scene.add(mesh);
+            };
+
+            function fragmentShader() {
+                return `
+                    varying vec3 vposInterpolated;
+
+                    void main() {
+                        gl_FragColor = vec4(vposInterpolated, 1.0);
+                    }
+                `
+            };
+
+            function vertexShader() {
+                return `
+                    vec4 p;
+                    varying vec3 vposInterpolated;
+
+                    void main() {
+                        p = projectionMatrix * modelViewMatrix * vec4(position, 1.0);
+                        gl_Position = p;
+                        vposInterpolated = p.xyz;
+                    }
+                `
+            };
+
+            function animate() {
+
+                requestAnimationFrame(animate);
+
+                // first motion : rotate on axis
+                mesh.rotation.x += 0.011;
+                mesh.rotation.y += 0.013;
+
+                // second motion : orbit something
+                angle += orbitSpeed;
+                mesh.position.x = orbitRadius * Math.cos(angle);
+                mesh.position.y = orbitRadius * Math.sin(angle);
+
+                renderer.render(scene, camera);
+            };
+
+        </script>
+    </body>
+</html>

@@ -1,0 +1,99 @@
+\begin{figure}
+\centering
+\begin{subfigure}{0.4\textwidth}
+\begin{gnuplot}[terminal=jpeg, terminaloptions={size 280,200 font "Arial,6"}]
+set title "Time taken to Query the Dictionary of size 10000"
+set ylabel "Time in Seconds"
+set xlabel "Size of query file divided by the size of the dictionary"
+set xrange [0:3]
+
+f1(x) = m1 * x + q1
+f2(x) = m2 * x + q2
+
+fit f1(x) 'data/10000_amortised_data_linear_c.dat' using  1:2 via m1, q1
+
+fit f2(x) 'data/10000_amortised_data_binary_c.dat' using  1:2 via m2, q2
+
+plot "data/10000_amortised_data_linear_c.dat" using 1:2 t "linear search", "data/10000_amortised_data_binary_c.dat" using 1:2 t "binary search", f1(x) ls 2 t 'Best Fit Line (linear search)', f2(x) ls 3 t 'Best Fit Line (binary search)'
+set out
+\end{gnuplot}
+\end{subfigure}
+\hfill
+\begin{subfigure}{0.4\textwidth}
+\begin{gnuplot}[terminal=jpeg, terminaloptions={size 280,200 font "Arial,6"}]
+set title "Time taken to Query the Dictionary of size 20000"
+set ylabel "Time in Seconds"
+set xlabel "Size of query file divided by the size of the dictionary"
+set xrange [0:3]
+
+f1(x) = m1 * x + q1
+f2(x) = m2 * x + q2
+
+fit f1(x) 'data/20000_amortised_data_linear_c.dat' using  1:2 via m1, q1
+
+fit f2(x) 'data/20000_amortised_data_binary_c.dat' using  1:2 via m2, q2
+
+plot "data/20000_amortised_data_linear_c.dat" using 1:2 t "linear search", "data/20000_amortised_data_binary_c.dat" using 1:2 t "binary search", f1(x) ls 2 t 'Best Fit Line (linear search)', f2(x) ls 3 t 'Best Fit Line (binary search)'
+set out
+\end{gnuplot}
+\end{subfigure}
+\hfill
+\begin{subfigure}{0.4\textwidth}
+\begin{gnuplot}[terminal=jpeg, terminaloptions={size 280,200 font "Arial,6"}]
+set title "Time taken to Query the Dictionary of size 30000"
+set ylabel "Time in Seconds"
+set xlabel "Size of query file divided by the size of the dictionary"
+set xrange [0:3]
+
+f1(x) = m1 * x + q1
+f2(x) = m2 * x + q2
+
+fit f1(x) 'data/30000_amortised_data_linear_c.dat' using  1:2 via m1, q1
+
+fit f2(x) 'data/30000_amortised_data_binary_c.dat' using  1:2 via m2, q2
+
+plot "data/30000_amortised_data_linear_c.dat" using 1:2 t "linear search", "data/30000_amortised_data_binary_c.dat" using 1:2 t "binary search", f1(x) ls 2 t 'Best Fit Line (linear search)', f2(x) ls 3 t 'Best Fit Line (binary search)'
+set out
+\end{gnuplot}
+\end{subfigure}
+\hfill
+\begin{subfigure}{0.4\textwidth}
+\begin{gnuplot}[terminal=jpeg, terminaloptions={size 280,200 font "Arial,6"}]
+set title "Time taken to Query the Dictionary of size 40000"
+set ylabel "Time in Seconds"
+set xlabel "Size of query file divided by the size of the dictionary"
+set xrange [0:3]
+
+f1(x) = m1 * x + q1
+f2(x) = m2 * x + q2
+
+fit f1(x) 'data/40000_amortised_data_linear_c.dat' using  1:2 via m1, q1
+
+fit f2(x) 'data/40000_amortised_data_binary_c.dat' using  1:2 via m2, q2
+
+plot "data/40000_amortised_data_linear_c.dat" using 1:2 t "linear search", "data/40000_amortised_data_binary_c.dat" using 1:2 t "binary search", f1(x) ls 2 t 'Best Fit Line (linear search)', f2(x) ls 3 t 'Best Fit Line (binary search)'
+set out
+\end{gnuplot}
+\end{subfigure}
+\hfill
+\begin{subfigure}{0.5\textwidth}
+\begin{gnuplot}[terminal=jpeg, terminaloptions={size 300,200 font "Arial,6"}]
+set title "Average Time taken to Query the Dictionary of size 50000"
+set ylabel "Time in Seconds"
+set xlabel "Size of query file divided by the size of the dictionary"
+set xrange [0:3]
+
+f1(x) = m1 * x + q1
+f2(x) = m2 * x + q2
+
+fit f1(x) 'data/50000_amortised_data_linear_c.dat' using  1:2 via m1, q1
+
+fit f2(x) 'data/50000_amortised_data_binary_c.dat' using  1:2 via m2, q2
+
+plot "data/50000_amortised_data_linear_c.dat" using 1:2 t "linear search", "data/50000_amortised_data_binary_c.dat" using 1:2 t "binary search", f1(x) ls 2 t 'Best Fit Line (linear search)', f2(x) ls 3 t 'Best Fit Line (binary search)'
+set out
+\end{gnuplot}
+\end{subfigure}
+\caption{Time taken to look up a word in a random dictionaryies of sizes 10000, 20000, 30000, 40000 and 50000 with best fit lines $f1(x) = m1x + q1$ (linear search) and $f2(x) = m2x^2 + q2$ (insertion sort plus binary search) shown.}
+\label{fig:amortized}
+\end{figure}

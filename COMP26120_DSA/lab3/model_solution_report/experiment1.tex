@@ -1,0 +1,110 @@
+\subsection{Experiment 1}
+
+\paragraph{Hypothesis} The complexity of inserting a single value into my implementation of a hash set is $O(1)$. 
+
+Theoretically, the best case for hash set insertion is $O(1)$ since a) the cost of inserting into a known point in a hash table is constant, b) calculation of the hash value should be constant and, c) on average, we don't expect collisions to occur.  We would expect average case behaviour to be similar provided we have a decent hash function and, in particular, if we have a big enough hash set to avoid rehashing.  
+
+{\bf Marking Feedback:}. A lot of people lost half a mark here for stating that the best case was $O(1)$ without stating that this was because the cost of inserting into a known point in a hash table was constant.  People also lost marks for failing to state what was being counted as the input size (even though the complexity is constant time, we want to know with respect to what).
+
+\paragraph{Experimental Design} 
+
+To test the hypothesis we investigated the performance of the spell-checking program on random input dictionaries.  Our independent variable was the size of the dictionary which is the same as the number of items to be inserted.  Our dependent variable was the time taken to perform the insertion.
+
+Random dictionaries of sizes 10K, 20K, 30K, 40K, 50K, 60K, 70K, 80K, 90K and 100K were generated.  Five dictionaries of each size were created.
+
+An empty query file was used to avoid the time taken for queries impacting on running time.  The size of the initial hashset was set to 200K to avoid rehashing.  
+
+The spell checking program was then run once on each dictionary with the empty query file.  The time for the program to execute was measured using the UNIX \texttt{time} command summing the \texttt{user} and \texttt{sys} values output by the command.  
+
+The process of generating dictionaries and computing the time was automated using the shell scripts shown in Appendix~\ref{app:shell_scripts_exp1}.
+
+The results were then plotted using \texttt{gnuplot} and \texttt{gnuplot}'s {\bf fit} functionality was used to fit a line $f(x) = m*x + q$  calculating values for $m$ and $q$ in the process.  $m$ should give the average insert time per insert if the complexity of insertion is $O(1)$.  
+
+
+\paragraph{Results} The results are shown in Figure~\ref{fig:hash_insert}.
+\ifc
+\begin{figure}[htb]
+\begin{center}
+\begin{gnuplot}[terminal=jpeg, terminaloptions={size 400,300 font "Arial,9"}]
+max(x, y) = (x > y ? x:y)
+min(x, y) = (x < y ? x:y)
+set title "Time Taken to insert Words into a Dictionary using a Hash Set data structure"
+set ylabel "Time in Milliseconds"
+set xlabel "Size of Dictionary"
+set xrange [0:105000]
+
+f(x) = m *x + q
+
+fit f(x) 'data/exp1_c_data.dat' using  1:(1000*$2) via m, q
+
+mq_value = sprintf("Parameter value\nm = %f\nq = %f", m, q)
+set label 1 at 25000,140 mq_value
+
+plot "data/exp1_c_data.dat" using 1:(1000*$2) t "time", f(x) ls 2 t 'Best fit line'
+set out
+\end{gnuplot}
+\end{center}
+\caption{Time taken to insert $n$ words into a dictionary implemented using a hash set, with best fit line $f(x) = mx + q$ shown and values for the parameters $m$ and $q$}
+\label{fig:hash_insert}
+\end{figure}
+\fi
+
+\ifjava
+\begin{figure}[htb]
+\begin{center}
+\begin{gnuplot}[terminal=jpeg, terminaloptions={size 400,300 font "Arial,9"}]
+max(x, y) = (x > y ? x:y)
+min(x, y) = (x < y ? x:y)
+set title "Time Taken to insert all Words into the Dictionary using a Hash Set Data structure"
+set ylabel "Time in Milliseconds"
+set xlabel "Size of Dictionary"
+set xrange [0:105000]
+
+f(x) = m*x + q
+
+fit f(x) 'data/exp1_java_data.dat' using  1:(1000*$2 ) via m, q
+
+mq_value = sprintf("Parameter value\nm = %f\nq = % f", m, q)
+set label 1 at 25000,400 mq_value
+
+plot "data/exp1_java_data.dat" using 1:(1000*$2) t "time", f(x) ls 2 t 'Best fit line'
+set out
+\end{gnuplot}
+\end{center}
+\caption{Time taken to insert $n$ words into a dictionary implemented using a hash set, with best fit line $f(x) = mx + q$ shown and values for the parameters $m$ and $q$}
+\label{fig:hash_insert}
+\end{figure}
+\fi
+
+
+\ifpython
+\begin{figure}[htb]
+\begin{center}
+\begin{gnuplot}[terminal=jpeg, terminaloptions={size 400,300 font "Arial,9"}]
+max(x, y) = (x > y ? x:y)
+min(x, y) = (x < y ? x:y)
+set title "Time Taken to insert all Words into the Dictionary"
+set ylabel "Time in Milliseconds"
+set xlabel "Size of Dictionary"
+set xrange [0:105000]
+
+f(x) = m*x + q
+
+fit f(x) 'data/exp1_python_data.dat' using  1:(1000*$2 ) via m, q
+
+mq_value = sprintf("Parameter value\nm = %f\nq = % f", m, q)
+set label 1 at 2500,1000 mq_value
+
+plot "data/exp1_python_data.dat" using 1:(1000*$2) t "time", f(x) ls 2 t 'Best fit line'
+set out
+\end{gnuplot}
+\end{center}
+\caption{Time taken to insert words into a dictionary implemented using a hash set, with best fit line $f(x) = mx + q$ shown and values for the parameters $m$ and $q$}
+\label{fig:hash_insert}
+\end{figure}
+\fi
+
+As can be seen from the graph the the line $f(x) = mx + 1$ has a good fit and the value of \ifc 0.0017 \fi \ifjava 0.01\fi \ifpython 0.01 \fi ms has been computed for $m$ and \ifc $-6.9$ \fi \ifjava 130 \fi \ifpython 8 \fi computed for $q$.  This confirms the hypothesis about the behaviour of the algorithm and allows us to predict the time taken to insert an item into the dictionary will be about \ifc 0.0016 \fi \ifjava 0.01 \fi \ifpython 0.01 \fi ms.  \ifc It should be noted that we have a negative value for $q$ which is clearly incorrect (small dictionaries will not be inserted in negative time).  This is probably the result of some noise in the data -- more runs of the program, possibly extending to larger dictionaries might have resolved this. \fi
+
+{\bf Marking Feedback:} A lot of people got confused somewhere around results and discussion with the difference between the total time to insert $n$ items into a hash set (which we would expect to be $O(n)$ since each insert is constant) with the average time per insert (expected to be $O(1)$).   Exactly where marks started getting lost depended upon where this first became obvious -- having something linear showing in the graph was fine so long as it was clear this was total time or the text flagged this up, but then the discussion sometimes went on to say this disproved the hypothesis.
+

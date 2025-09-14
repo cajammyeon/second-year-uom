@@ -1,0 +1,48 @@
+\section{Raw Data for Experiment 3}
+\label{app:data_exp3}
+
+\ifc
+\csvreader[
+tabular={|l|l|l|l|},
+table head={\hline \multicolumn{4}{|c|}{Data} \\ \hline Dictionary Size & Number of Queries & Total Time & Time to Generate Dictionary \\\hline},
+late after line=\\\hline,
+no head]{data/exp3_c_data.csv}{}%
+{\csvcoli & \csvcolii & \csvcoliii & \csvcoliv}
+\fi
+
+\ifjava
+\csvreader[
+tabular={|l|l|l|l|},
+table head={\hline \multicolumn{4}{|c|}{Data} \\ \hline Dictionary Size & Number of Queries & Total Time & Time to Generate Dictionary \\\hline},
+late after line=\\\hline,
+no head]{data/exp3_java_data.csv}{}%
+{\csvcoli & \csvcolii & \csvcoliii & \csvcoliv}
+\fi
+
+\ifpython
+\csvreader[
+tabular={|l|l|l|l|},
+table head={\hline \multicolumn{4}{|c|}{Data} \\ \hline Dictionary Size & Number of Queries & Total Time & Time to Generate Dictionary \\\hline},
+late after line=\\\hline,
+no head]{data/exp3_python_data.csv}{}%
+{\csvcoli & \csvcolii & \csvcoliii & \csvcoliv}
+\fi
+
+\section{Shell Scripts for Experiment 3}
+\label{app:shell_scripts_exp3}
+\subsection{Generating Dictionaries}
+\verbatiminput{dict_query_generate_4.sh}
+
+\subsection{Script for Computing Run Times}
+\ifc
+\verbatiminput{data_generate_exp3_c.sh}
+\fi
+
+\ifjava
+\verbatiminput{data_generate_exp3_java.sh}
+\fi
+
+\ifpython
+\verbatiminput{data_generate_exp3_python.sh}
+\fi
+

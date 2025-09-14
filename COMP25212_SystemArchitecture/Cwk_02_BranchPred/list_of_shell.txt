@@ -1,0 +1,3 @@
+grep -o "B from" block_profile | wc -l
+grep -o "not" block_profile | wc -l
+cut -c1 block_profile | sort | uniq -c

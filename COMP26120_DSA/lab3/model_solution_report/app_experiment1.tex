@@ -1,0 +1,50 @@
+
+\section{Raw Data for Experiment 1}
+\label{app:data_exp1}
+
+\ifc
+\csvreader[
+tabular={|l|l|},
+table head={\hline \multicolumn{2}{|c|}{Data} \\ \hline Size & Time (s)\\\hline},
+late after line=\\\hline,
+no head]{data/exp1_c_data.csv}{}%
+{\csvcoli & \csvcolii}
+\fi
+
+\ifjava
+\csvreader[
+tabular={|l|l|},
+table head={\hline \multicolumn{2}{|c|}{Data} \\ \hline Size & Time (s)\\\hline},
+late after line=\\\hline,
+no head]{data/exp1_java_data.csv}{}%
+{\csvcoli & \csvcolii}
+\fi
+
+\ifpython
+\csvreader[
+tabular={|l|l|},
+table head={\hline \multicolumn{2}{|c|}{Data} \\ \hline Size & Time (s)\\\hline},
+late after line=\\\hline,
+no head]{data/exp1_python_data.csv}{}%
+{\csvcoli & \csvcolii}
+\fi
+
+\section{Shell Scripts for Experiment 1}
+\label{app:shell_scripts_exp1}
+\subsection{Generating Dictionaries}
+\verbatiminput{dict_query_generate_1.sh}
+
+
+\subsection{Script for Computing Run Times}
+\ifc
+\verbatiminput{data_generate_exp1_c.sh}
+\fi
+
+\ifjava
+\verbatiminput{data_generate_exp1_java.sh}
+\fi
+
+\ifpython
+\verbatiminput{data_generate_exp1_python.sh}
+\fi
+

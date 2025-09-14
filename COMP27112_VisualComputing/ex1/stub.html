@@ -1,0 +1,34 @@
+<html>
+    <head>
+        <style>
+            body {
+                margin: 0;
+                overflow: hidden;
+            }
+        </style>
+    </head>
+    <body>
+        <script type="module">
+            import * as THREE from "https://web.cs.manchester.ac.uk/three/three.js-master/build/three.module.js";
+
+            let camera, scene, renderer, mesh;
+
+            function init() {
+                // scene - put the objects on the screen
+                // perspective camera - allows the objects to be viewed with perspective
+                // rederer - render the objects
+                scene = new THREE.Scene();
+                camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
+                renderer = new THREE.WebGLRenderer();
+
+                // camera setup
+                camera.position.z = 5;
+
+                // renderer setup
+                renderer.setClearColor(0x000000, 1.0);
+                renderer.setSize(window.innerWidth, window.innerHeight);
+                document.body.appendChild(renderer.domElement);
+            }
+        </script>
+    </body>
+</html>

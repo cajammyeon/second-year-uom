@@ -1,0 +1,300 @@
+\documentclass[a4]{article}
+\usepackage{gnuplottex}
+\usepackage{csvsimple}
+\usepackage{subcaption}
+\usepackage{amsmath}
+
+\newif\ifc
+\cfalse
+\newif\ifjava
+\javafalse
+\newif\ifpython
+\pythontrue
+
+\title{COMP26120 Lab 3 Report}
+\author{Louise A. Dennis}
+\begin{document}
+\maketitle
+
+\section{A Note on Testing}
+
+We tested your hash set implementation on all the simple tests and the collision\_tests tests.  We did this both with the default hash set size (509 unless you had changed it), with an initial size of 11 excluding simple 7 \& 8 (chosen to avoid rehashing in most cases but with a high likelihood of collisions) and with an initial size of 3 (to force rehashing).  Most people's implementations passed the default size, some had failures, usually related to collision resolution with the size of 11, quite a lot of solutions failed with an initial size of 3 - in particular if the load factor was set to something like 75\% then for the examples in simple with only three items in the dictionary, rehashing was not called but the dictionary was full when find was called and in some cases find then failed to terminate since there were no empty cells in the dictionary.
+
+For basic testing we expected people's implementations to pass both default size and initial size 11.  For rehashing testing we also expected them to pass for size 3.
+
+For binary trees we ran your implementations on the simple tests.
+
+We encountered quite a lot of errors in the implementation of print\_set and print\_stats, particularly for binary trees where these were sometimes called on null elements (i.e., left or right branches of the tree that had not been created).  Where possible we fixed these before running the binary trees tests.  
+
+\section{Part A: Short Answers to Quiz}
+
+\begin{quote}
+What did you implement as your hash function (give a formula to describe what it computes)? How “good” is it (justify your answer)? (No more than 200 words).  
+
+If you have implemented more than one hash function then this should describe the hash function used in mode 0 (and the one that is used first, if you are using double hashing as your collision resolution strategy). 
+\end{quote}
+
+Given a string $k$ of length $l$ where the ASCII value of character $i$ in the string is  $k[i]$ and dictionary size $N$.  This computes:
+
+$$k[0] \times 41 k[1] \times 41^2 k[2] \times \ldots 41^{l-1} k[l - 1] \text{ mod } N$$
+
+This hash function will produce a nice spread of values -- the position of letters in the string is important to the value produced and the use of powers of 41 means a good range of numbers will be used even for quite short strings.  The use of powers of 41 related to the position of the letter in the string mean it avoids hashing symmetric strings (i.e., anagrams) to the same value.
+
+{\bf Marking Feedback:}  Where most people lost marks here was reporting that their hash function was good (or bad) but failing to explain why -- i.e., not discussing the spread of values and its handling of symmetry.  Some people lost marks because they used a built-in hash function - e.g., \texttt{hashCode} in Java and couldn't explain how it worked - in this case simply saying it was a polynomial hashing function was insufficient since it wasn't clear you knew what that meant.
+
+\begin{quote}
+What is your collision resolution strategy? What are the advantages and disadvantages of this strategy (this should include any factors that should be considered in the implementation for it to be correct (e.g., limitations on the choices for hash table size or hash function))?  How do find and insert for hash sets work using this strategy?  How have you implemented them?  Illustrate your explanation with samples of your code - this may be tided up a bit for presentation but should clearly be the same as the code you have submitted and should cover the the operation of collision resolution, and how it is used by both find and insert (No more than 300 words, not counting the code snippets).
+\end{quote}
+
+I have implemented linear probing.  If my choice of cell is occupied then this looks at the next cell along and continues to do this until it finds an empty cell.  The code for this can be seen below where \texttt{pos} is the value calculated by the hash function.  As can be seen the cell \texttt{state} is used to detect whether a cell is occupied and \texttt{insertCell} is used to perform an actual insertion.  A for loop iterates over the sequence of cells looking for the next empty cell in the case of collisions.
+
+Insert works by calculating a the hash of the string using my hash function.  It then looks at this cell in the hash table.  If the cell is empty then it places the value at that point in the cell -- if the cell is occupied then it uses the collision resolution strategy to find an alternative position for the value.
+
+Find works in much the same way, but in this case it compares the cell's value.  If it matches the value of the string then it returns true.  Otherwise it uses the collision resolution strategy to find the next alternative cell and compares the value of that cell.  It continues in this fashion until an empty cell is encountered at which point it returns false.
+
+
+In insert:
+\ifc
+\begin{verbatim}
+	for(int j = 1; j < N; j++){
+            int look = (pos + j) % N;
+            set->collision ++;
+            if(set->cells[look].state != in_use){
+              insertCell(value, set, look);
+              break;
+            }
+\end{verbatim}
+\fi
+
+\ifjava
+\begin{verbatim}
+if(isLinearProbing(mode)) // linear probing: A[(i+j)mod N]
+   {
+       for(int j = 1; j < N; j++){
+            int look = (pos + j) % N;
+            collision ++;
+            if(cells[look].state != state.in_use){
+                 insertCell(value, look);
+                 break;
+            }
+      }
+}
+\end{verbatim}
+\fi
+
+\ifpython
+\begin{verbatim}
+if self.isLinearProbing(self.mode): # linear probing: A[(i + j)mod N]
+    for j in range(1, N):
+         look = (pos + j) % N
+         self.collision = self.collision + 1
+         if (self.cells[look].state != state.in_use):
+                 self.insertCell(value, look)
+                 break
+         if (self.cells[look].element == value):
+                 break
+\end{verbatim}
+\fi
+
+
+
+In find:
+\ifc
+\begin{verbatim}
+for(int j = 1; j < N; j++){
+          int look = (pos + j) % N;
+          if(set->cells[look].state == empty)
+            return false;
+          if(set->cells[look].state == in_use
+             && (strcmp(set->cells[look].element, value) == 0)){
+            return true;
+          }
+        }
+\end{verbatim}
+\fi
+
+\ifjava
+\begin{verbatim}
+for(int j = 1; j < N; j++){
+            int look = (pos + j) % N;
+            if(cells[look] == null)
+                    return false;
+            if(cells[look].compareTo(value) == 0) {
+                     return true;
+             }
+}
+\end{verbatim}
+\fi
+
+
+\ifpython
+\begin{verbatim}
+for j in range(1, N):
+                look = (pos + j) % N
+                if (self.cells[look] == None):
+                    return False
+                if (self.cells[look] != None and self.cells[look] == value):
+                    return True
+\end{verbatim}
+\fi
+
+The advantage of linear probing is that it is simple to implement and effective if the table is a good size (relative to the input) and the hash function creates a good spread of values given the input.  It's disadvantage is that as the table fills up (particularly if the hash function isn't generating a good spread of values), \emph{clusters} will form which cause large blocks of the hash table to be fully occupied and then the function iterates the whole length of the block to find a space -- this can cause insertion and find to have linear complexity.
+
+{\bf Marking Feedback:}  Most of the marks here got lost for silly mistakes - e.g., not actually describing the implementation.  A few people failed to either take the modulus of \texttt{pos + j} or alternatively to make sure that the value wrapped around to zero when the hash table size was reached.  This then had implications for the load factor and whether a position for an element once the table was full.  This often showed up in the tests with smaller initial dictionary sizes.
+
+\begin{quote}
+Did you implement rehashing? If so briefly explain your implementation including explaining when you choose to rehash.  (No more than 200 words, you may include code snippets which do not count towards the word count)
+\end{quote}
+
+Yes.  I rehash when the table is over half full ($num\_entries \geq N/2$) which is the point when a lot of collisions will be occurring.  The process works by calculating a new size for the hash table by doubling the old size and then finding the next prime.  A copy is made of the old hash table to store the values.  Then I reinitialise the existing hash table to the new size followed by iterating over the keys in the copy of the old hash table and inserting any values found into the new hash table.
+
+{\bf Marking Feedback:}  A lot of people lost half a mark here for failing to find the next prime number after doubling the size of the hash table. 
+
+\section{Part B}
+
+\begin{quote}
+How do your find and insert functions work using binary trees? How have you implemented them? Include your code for insert and find and relate your explanation to this code.  The code may be tidied up a bit for presentation reasons, but should include all important details mentioned in your explanation.  (No more than 200 words, not including the code snippet(s))
+\end{quote}
+
+\medskip 
+
+Binary trees work by comparing strings using alphabetical order and extending a tree in which the trees are stored.  Each node in the tree stores a string as a value.  When a new value is to be inserted it is compared with the value at the current node, if it is less than the current value then it is inserted into the left sub-tree (line 3 below) and if it is greater than the current value then it is inserted into the right subtree (line \ifc 4 \fi \ifjava 5 \fi \ifpython 5 \fi below).  If there are no sub-trees then a new node is created at the leaf with empty sub-trees (the else statement below).
+
+\ifc
+Insert:
+\begin{verbatim}
+  if(tree){
+    int comp = compare(value,tree->value);
+    if(comp < 0){ tree->left = insert(value,tree->left); }
+    else if(comp > 0){ tree->right = insert(value,tree->right); }
+    // if comp == 0 then do nothing as it's a duplicate
+  }
+  else{
+    tree = malloc(sizeof(struct bstree));
+    check(tree);
+    tree->left  = NULL;
+    tree->right = NULL;
+    tree->value= strdup(value);
+  }
+  return tree;
+\end{verbatim}
+\fi
+
+\ifjava
+\begin{verbatim}
+if(tree()){
+            int comp = value.compareTo(this.value);
+            if (comp < 0) {
+                this.left.insert(value);
+            } else if (comp > 0) {
+                this.right.insert(value);
+            }
+            // if comp == 0 then do nothing as it's a duplicate
+        }
+        else{
+            left = new bstree(this.config);
+            right = new bstree(this.config);
+            this.value = value;
+        }
+\end{verbatim}
+\fi
+
+\ifpython
+\begin{verbatim}
+def insert(self, value):
+        if (self.tree()):
+            if(value < self.value):
+                self.left.insert(value)
+            elif (value > self.value):
+                self.right.insert(value)
+        else:
+            self.left = bstree();
+            self.right = bstree();
+            self.value = value;
+\end{verbatim}
+\fi
+
+
+
+Find:
+\ifc
+\begin{verbatim}
+if(tree){
+    int comp = compare(value,tree->value);
+    if(comp==0){ return true; }
+    else if(comp < 0){ return find(value,tree->left); }
+    else { return find(value,tree->right); }
+  }
+  // if tree is NULL then it contains no values
+  return false;
+\end{verbatim}
+\fi
+
+\ifjava
+\begin{verbatim}
+if(tree()){
+            int comp = value.compareTo(this.value);
+            if (comp == 0) { return true;}
+            else if (comp < 0) {return left.find(value);}
+            else return right.find(value);
+        }
+        // if tree is NULL then it contains no values
+        return false;
+\end{verbatim}
+\fi
+
+\ifpython
+\begin{verbatim}
+def find(self, value):
+        if self.tree():
+            if (value == self.value):
+                return True
+            elif (value < self.value):
+                return self.left.find(value)
+            else:
+                return self.right.find(value)
+        return False
+\end{verbatim}
+\fi
+
+Find works in much the same way.  The tree is explored moving left if the word to be found comes earlier in the alphabet than the search word and right otherwise.  If a leaf node is reached and the word has not been found then false is returned.
+
+{\bf Marking Feedback:}  Most people got full marks here.  Where marks got lost it was generally for silly mistakes - e.g., not actually describing the implementation.  
+
+
+\section{Part C}
+
+\input{experiment1}
+\input{experiment2}
+
+\section{Conclusion}
+\label{sec:conclusion}
+Suppose we are considering the time take to build a dictionary?  The time taken to create a dictionary of $x$ items as a hash set is $m_h x + q_h$ and the time taken to create a dictionary of $x$ items as a binary tree is $m_b x log~x + q_b$.  The point where a hash set becomes preferable to a binary tree (in the average case) is therefore the point where 
+$$m_h x + q_h < m_b x log~x + q_b$$
+Assuming $q_h$ and $q_b$ are negligible this is the point where $m_h < m_b log~x$ which is where $\frac{m_h}{m_b} < log~x$.  In our case this is where \ifc $log~x > \frac{0.0017}{0.000116} \approx 15$ \fi 
+\ifjava $log~x > \frac{0.01}{0.000092} \approx 108.6$ \fi. 
+\ifpython  $log~x > \frac{0.013}{0.0004} \approx 32.5$  \fi 
+So where \ifc $x > 2^{15}$ \fi
+ \ifjava $x > 2^{108.6}$ \fi \ifpython $x > 2^{32.5}$ \fi which is somewhere around a dictionary size of \ifc 32k. \fi   \ifjava $5 \times 10^{32}$ which is large enough that for many dictionaries the use of a binary tree is preferable to a hash set. \fi  \ifc This is borne out by looking at Figure~\ref{fig:exp2} where we see that the time per insert into a binary tree exceeds 0.0017 (the time per insert in the hash set) at around this point. \fi     \ifpython 6,000,000,000 which is large enough that for many dictionaries the use of a binary tree is preferable to a hash set. \fi             
+
+{\bf Marking Feedback:} People got marks here for either performing a calculation or superimposing their best fit lines and noting the crossover point.  A surprising number of people then got confused and said that hash sets should be used for smaller sets and binary trees for larger sets even though they had shown hash set complexity was constant while their binary tree complexity was $O(log~n)$.
+
+\section{Extension}
+For the extension I look at query time for hash sets.
+ \input{experiment3}
+ 
+ \section{Data Statement}
+
+The raw data for experiment 1 can be seen in Appendix~\ref{app:data_exp1}.
+The raw data for experiment 2 can be seen in Appendix~\ref{app:data_exp2}.
+The raw data for experiment 2can be seen in Appendix~\ref{app:data_exp3}.
+
+All the raw data is also available in the \texttt{data} directory of the \texttt{model\_solutions} folder on gitlab.
+
+\newpage 
+\appendix
+\input{app_experiment1}
+\input{app_experiment2}
+\input{app_experiment3}
+
+\end{document}

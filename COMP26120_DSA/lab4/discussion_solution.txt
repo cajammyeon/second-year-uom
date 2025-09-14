@@ -1,0 +1,24 @@
+1. What priority queue operations does each application require and with what relatively frequency (roughly)? e.g. few insertions, lots of checking for contains, as many pop min operations as insertions.
+
+Concat:  N contains where N is the number of candidate strings for concatenation.
+
+Roughly twice as many inserts than pops -- in the key loop it pops a string and concatenates it both before and after a target string and then inserts both these new strings.
+
+Sorting: No contains.  Same numbers of inserts as pops (the number of strings to be sorted).
+
+2. With what complexity does each of the five considered alternative data structures implement those operations? Your answer should be in Big-O. You don’t need to justify this here but you should make sure you know why (you’re expected to look these up and understand them, not necessarily compute them).
+
+Linked List: Contains is O(n) - n is length of list, insert is O(1), pop_min is O(n)
+
+Sorted Linked List: Contains is O(n), insert is O(n), pop_min is O(1)
+
+AVL Tree: Contains is O(log n) (height of tree), Insert is O(log n), Pop_min is O(log n)
+
+Binary Heap:  Contains is O(log n), Insertion O(log n), Pop_min O(log n)
+
+Skip List:   Contains is O(log n), Contains O(log n), Insertion O(log n), pop_min O(log N)
+
+3. For each application, which data structure do you expect to be best?
+
+
+Hard to distinguish between AVL Tree, Binary Heap and Skip List - they all ought to be better on both applications than Linked List. Linked list might outperform them on Concat because of the speed of its insert operation.

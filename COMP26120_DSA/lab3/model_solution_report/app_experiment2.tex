@@ -1,0 +1,47 @@
+\section{Raw Data for Experiment 2}
+\label{app:data_exp2}
+\ifc
+\csvreader[
+tabular={|l|l|},
+table head={\hline \multicolumn{2}{|c|}{Data} \\ \hline Size & Time (s)\\\hline},
+late after line=\\\hline,
+no head]{data/exp2_c_data.csv}{}%
+{\csvcoli & \csvcolii}
+\fi
+
+\ifjava
+\csvreader[
+tabular={|l|l|},
+table head={\hline \multicolumn{2}{|c|}{Data} \\ \hline Size & Time (s)\\\hline},
+late after line=\\\hline,
+no head]{data/exp2_java_data.csv}{}%
+{\csvcoli & \csvcolii}
+\fi
+
+\ifpython
+\csvreader[
+tabular={|l|l|},
+table head={\hline \multicolumn{2}{|c|}{Data} \\ \hline Size & Time (s)\\\hline},
+late after line=\\\hline,
+no head]{data/exp2_python_data.csv}{}%
+{\csvcoli & \csvcolii}
+\fi 
+
+
+\section{Shell Scripts for Experiment 2}
+\label{app:shell_scripts_exp2}
+
+\ifc
+\verbatiminput{data_generate_exp2_c.sh}
+
+\fi
+
+\ifjava
+\verbatiminput{data_generate_exp2_java_height.sh}
+
+\fi
+
+\ifpython
+\verbatiminput{data_generate_exp2_python.sh}
+
+\fi

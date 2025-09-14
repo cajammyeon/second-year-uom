@@ -1,0 +1,100 @@
+\subsection{Experiment 3}
+\paragraph{Hypothesis} The complexity of querying a single value in my implementation of a hash set $O(1)$. 
+
+Theoretically, the best case for hash set querying is $O(1)$ since the cost of looking up and inserting into a known point in a hash table is constant and, on average, we don't expect collisions to have occurred during insertion.  We would expect average case behaviour to be similar provided we have a decent hash function.  
+
+\paragraph{Experimental Design} To test the hypothesis, random input dictionaries were produced. 5 unsorted dictionaries of sizes 10K, 20K, 30K, 40K and 50K  were generated.  For each random dictionary five random query files were generated of sizes 20K, 40K, 60K, 80K and 100K where each query file had 50\% of the words in the dictionary and 50\% of the words were not in the dictionary. The spell checking program was then run on each dictionary firstly with an empty input file  to calculate the time taken to create the dictionary and then with the query files.  The time for the program to execute was measured using the UNIX \texttt{time} command summing the \texttt{user} and \texttt{sys} values output by the command.  
+
+ The results were then plotted using \texttt{gnuplot}.  In order to find the time per query the time calculated to make all the queries, less the time to create the dictionary, was divided by the size of the query file.  
+
+The process of generating dictionaries and computing the time was automated using the shell scripts shown in Appendix~\ref{app:shell_scripts_exp3}.
+
+\paragraph{Results}  The results of time per query are shown in Figure~\ref{fig:exp3} and the line $f(x) = m$ has been calculated and the value of $m$ is shown.
+
+\ifc
+\begin{figure}[htb]
+\begin{center}
+\begin{gnuplot}[terminal=jpeg, terminaloptions={size 400,300 font "Arial,9"}]
+max(x, y) = (x > y ? x:y)
+min(x, y) = (x < y ? x:y)
+set title "Average Time per Query into a Hash Data Structure"
+set ylabel "Time in Milliseconds"
+set xlabel "Size of Dictionary"
+set xrange [0:55000]
+set yrange [0:0.005]
+
+f(x) = m 
+
+fit f(x) 'data/exp3_c_data.dat' using  1:(1000*($3 - $4)/$2) via m
+
+mq_value = sprintf("Parameter value\nm = %f\n", m)
+set label 1 at 25000,0.003 mq_value
+
+plot "data/exp3_c_data.dat" using 1:(1000*($3 - $4)/$2) t "time", f(x) ls 2 t 'Best fit line'
+set out
+\end{gnuplot}
+\end{center}
+\caption{Time taken to query words against a dictionary implemented using a hash set, with best fit line $f(x) = m$ shown and value for the parameter $m$}
+\label{fig:exp3}
+\end{figure}
+\fi
+
+\ifjava
+\begin{figure}[htb]
+\begin{center}
+\begin{gnuplot}[terminal=jpeg, terminaloptions={size 400,300 font "Arial,9"}]
+max(x, y) = (x > y ? x:y)
+min(x, y) = (x < y ? x:y)
+set title "Average Time per Query"
+set ylabel "Time in Milliseconds"
+set xlabel "Size of Dictionary"
+set xrange [0:55000]
+set yrange [0:0.03]
+
+f(x) = m 
+
+fit f(x) 'data/exp3_java_data.dat' using  1:(1000*($3 - $4)/$2) via m
+
+mq_value = sprintf("Parameter value\nm = %f\n", m)
+set label 1 at 2500,0.025 mq_value
+
+plot "data/exp3_java_data.dat" using 1:(1000*($3 - $4)/$2) t "time", f(x) ls 2 t 'Best fit line'
+set out
+\end{gnuplot}
+\end{center}
+\caption{Time taken to query words against a dictionary, with best fit line $f(x) = m$ shown and value for the parameters $m$}
+\label{fig:exp3}
+\end{figure}
+\fi
+
+\ifpython
+\begin{figure}[htb]
+\begin{center}
+\begin{gnuplot}[terminal=jpeg, terminaloptions={size 400,300 font "Arial,9"}]
+max(x, y) = (x > y ? x:y)
+min(x, y) = (x < y ? x:y)
+set title "Average Time per Query"
+set ylabel "Time in Milliseconds"
+set xlabel "Size of Dictionary"
+set xrange [0:55000]
+set yrange [0:0.02]
+
+f(x) = m 
+
+fit f(x) 'data/exp3_python_data.dat' using  1:(1000*($3 - $4)/$2) via m
+
+mq_value = sprintf("Parameter value\nm = %f\n", m)
+set label 1 at 2500,0.005 mq_value
+
+plot "data/exp3_python_data.dat" using 1:(1000*($3 - $4)/$2) t "time", f(x) ls 2 t 'Best fit line'
+set out
+\end{gnuplot}
+\end{center}
+\caption{Time taken to query words against a dictionary, with best fit line $f(x) = m$ shown and value for the parameters $m$}
+\label{fig:exp3}
+\end{figure}
+\fi
+
+As can be seen from the graph the the line $f(x) = m$ has a good fit in the average case and the value of \ifc 0.0014 \fi \ifjava 0.008 \fi \ifpython 0.008 \fi ms has been computed for $m$.  This confirms the hypothesis about the behaviour of the algorithm in the average case.
+
+{\bf Marking Feedback:} Note this is not a first class answer - a first class answer would have attempted something that needed a different approach to the experimental design or significant extra implementation.  However this answer would get Satisfactory.

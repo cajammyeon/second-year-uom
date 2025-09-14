@@ -1,0 +1,278 @@
+\subsection{Experiment 2}
+
+\paragraph{Hypothesis}  The complexity of inserting a single value into my implementation of a binary tree is $O(log~n)$ where $n$ is the size of the dictionary. 
+
+Theoretically, best case behaviour for binary trees is $O(log~n)$ when the tree is equally balanced, in this case $log~n$ is the height of the tree representing the length of the branch to be traversed in order to perform an insert.  We would expect average case behaviour to be similar to best case behaviour.  
+
+\paragraph{Experimental Design} 
+
+To test the hypothesis we investigated the performance of the spell-checking program on random input dictionaries.  Our independent variable was the size of the dictionary which is the same as the number of items to be inserted.  Our dependent variable was the time taken to perform the insertion.
+
+Five random dictionaries of sizes \ifjava 1K, 2K, 3K, 4K, 5K, 6K, 7K, 8K, 9K,\fi \ifpython 1K, 2K, 3K, 4K, 5K, 6K, 7K, 8K, 9K,\fi  10K, 20K, 30K, 40K, 50K, 60K, 70K, 80K, 90K, and 100K  were generated.  
+
+An empty query file was used to avoid the time taken for queries impacting on running time. 
+
+The spell checking program was then run once on each dictionary with the empty query file.  The time for the program to execute was measured using the UNIX \texttt{time} command summing the \texttt{user} and \texttt{sys} values output by the command.  \ifjava The height of the resulting binary tree was computed by the program and also recorded. \fi
+
+% The results were then plotted using \texttt{gnuplot}.   \ifjava There appeared to be a fixed overhead time for the program to execute that was independent of the size of the dictionary.  However this proved difficult to calculate from the data available, in part because there was a spread of running times for each size of dictionary.  Figure~\ref{fig:exp2_fixed} illustrates this spread of values.  The difficulty of calculating the overhead, meant it proved impossible to calculate time per insert accurately for a given dictionary size.  Instead, therefore, we broke the theoretical complexity down -- the theoretical complexity states that  the cost of insertion is $O(log~n)$ because it is linear in the height of the binary tree, and the height of the binary tree should be roughly $log n$ where $n$ is the size of the dictionary.  Therefore we computed time taken against the height of the tree (Figure~\ref{fig:exp2_time_height}) and the height of the tree against the size of the dictionary (Figure~\ref{fig:exp2_height_size}). \fi
+
+For our calculations in Section~\ref{sec:conclusion} we will need to know the time taken to insert $n$ items into the dictionary.  This is easily plotted from the data collected and shown in Figure~\ref{fig:exp2_fixed} with the line  $f(x) = x \times m \times log~x + q$ shown.
+
+\ifc In order to find the time per single insert, to check the hypothesis about the implementation, the time calculated to insert $n$ words into the dictionary was divided by the size of the dictionary ($n$). This is shown in Figure~\ref{fig:exp2}.\fi
+
+\ifjava Figure~\ref{fig:exp2_fixed} shows there is a significant fixed overhead for any run of the program ($q = 100ms$). In order to compute time per single insert, needed to check the hypothesis about the implementation, we needed to plot $\frac{x - q}{n}$ where $x$ is the time taken to insert $n$ items into the dictionary against dictionary size and then attempt to fit the line $f(x) = m \times log~x' + q'$ to this.  This is shown in Figure~\ref{fig:exp2}\fi
+
+\ifjava Figure~\ref{fig:exp2_fixed} shows there is a  fixed overhead for any run of the program ($q = 11ms$). In order to compute time per single insert, needed to check the hypothesis about the implementation, we needed to plot $\frac{x - q}{n}$ where $x$ is the time taken to insert $n$ items into the dictionary against dictionary size and then attempt to fit the line $f(x) = m \times log~x' + q'$ to this.  This is shown in Figure~\ref{fig:exp2}\fi
+
+The process of generating dictionaries and computing the time was automated using the shell scripts shown in Appendix~\ref{app:shell_scripts_exp2}.
+
+\paragraph{Results} 
+Figure~\ref{fig:exp2_fixed} presents results of time to insert $n$ items into a random dictionary.  The line $f(x) = x m log~x + q$ has been calculated and the values for $m$ and $q$ are shown. \ifc
+\begin{figure}[htb]
+\begin{center}
+\begin{gnuplot}[terminal=jpeg, terminaloptions={size 400,300 font "Arial,9"}]
+max(x, y) = (x > y ? x:y)
+min(x, y) = (x < y ? x:y)
+set title "Time Taken to insert Words into a Dictionary using a Binary Tree"
+set ylabel "Time in Milliseconds"
+set xlabel "Size of Dictionary"
+set xtics format "%.0s%c"
+set xrange [0:90500]
+
+logb(x, base) = log(x)/log(base)
+f1(x) = m * logb(x, 2)  * x + q
+
+fit f1(x) 'data/exp2_c_data.dat' using  1:((1000*$2)) via m, q
+
+mq1_value = sprintf("Parameter value\nm = %f\nq = %f", m, q)
+set label 1 at 8000,100 mq1_value
+
+plot "data/exp2_c_data.dat" using 1:((1000*$2)) t "average case",  f1(x) ls 2 t 'Best fit line average case'
+set out
+\end{gnuplot}
+\end{center}
+\caption{Time taken to insert $n$ words into a dictionary implemented using a binary tree, with best fit line $f(x) = x \times m \times log~x + q$ shown and values for the parameters $m$ and $q$}
+\label{fig:exp2_fixed}
+\end{figure}
+
+\begin{figure}[htb]
+\begin{center}
+\begin{gnuplot}[terminal=jpeg, terminaloptions={size 400,300 font "Arial,9"}]
+max(x, y) = (x > y ? x:y)
+min(x, y) = (x < y ? x:y)
+set title "Average Time Taken to insert a Word into a Dictionary using a Binary Tree data structure"
+set ylabel "Time in Milliseconds"
+set xlabel "Size of Dictionary"
+set xtics format "%.0s%c"
+set xrange [0:105000]
+
+logb(x, base) = log(x)/log(base)
+f1(x) = m * logb(x, 2)  + q
+
+fit f1(x) 'data/exp2_c_data.dat' using  1:(1000*$2/$1) via m, q
+
+mq1_value = sprintf("Parameter value\nm = %f\nq = %f", m, q)
+set label 1 at 50000,0.0012 mq1_value
+
+plot "data/exp2_c_data.dat" using 1:(1000*$2/$1) t "average case",  f1(x) ls 2 t 'Best fit line average case'
+set out
+\end{gnuplot}
+\end{center}
+\caption{Average time taken to insert a single word into a dictionary implemented using a binary tree, with best fit line $f(x) = m log~x + q$ shown and values for the parameters $m$ and $q$}
+\label{fig:exp2}
+\end{figure}
+\fi
+
+\ifjava
+\begin{figure}[htb]
+\begin{center}
+\begin{gnuplot}[terminal=jpeg, terminaloptions={size 400,300 font "Arial,9"}]
+max(x, y) = (x > y ? x:y)
+min(x, y) = (x < y ? x:y)
+set title "Time Taken to insert all Words into the Dictionary using a Binary Tree data structure"
+set ylabel "Time in Milliseconds"
+set xlabel "Size of Dictionary"
+set xtics format "%.0s%c"
+set xrange [0:105000]
+
+q=300
+logb(x, base) = log(x)/log(base)
+f1(x) = m * logb(x, 2)  * x + q
+
+fit f1(x) 'data/exp2_java_data.dat' using  1:((1000*$2)) via m, q
+
+mq1_value = sprintf("Parameter value\nm = %f\nq = %f", m, q)
+set label 1 at 15000,250 mq1_value
+
+plot "data/exp2_java_data.dat" using 1:((1000*$2)) t "average case",  f1(x) ls 2 t 'Best fit line average case'
+set out
+
+\end{gnuplot}
+\end{center}
+\caption{Time taken to insert $n$ words into a dictionary implemented using a binary tree, with best fit line $f(x) = x \times m \times log~x + q$ shown and values for the parameters $m$ and $q$}
+\label{fig:exp2_fixed}
+\end{figure}
+
+\begin{figure}[htb]
+\begin{center}
+\begin{gnuplot}[terminal=jpeg, terminaloptions={size 400,300 font "Arial,9"}]
+max(x, y) = (x > y ? x:y)
+min(x, y) = (x < y ? x:y)
+set title "Average Time Taken to insert a Word into a Dictionary using a Binary Tree data structure"
+set ylabel "Time in Milliseconds"
+set xlabel "Size of Dictionary"
+set xtics format "%.0s%c"
+set xrange [0:105000]
+
+logb(x, base) = log(x)/log(base)
+f1(x) = m * logb(x, 2)  + q
+
+fit f1(x) 'data/exp2_java_data.dat' using  1:(1000*$2 - 110/$1) via m, q
+
+mq1_value = sprintf("Parameter value\nm = %f\nq = %f", m, q)
+set label 1 at 50000,250 mq1_value
+
+plot "data/exp2_java_data.dat" using 1:(1000*$2 - 110/$1) t "average case",  f1(x) ls 2 t 'Best fit line average case'
+set out
+\end{gnuplot}
+\end{center}
+\caption{Average time taken to insert a single word into a dictionary implemented using a binary tree, with best fit line $f(x) = m log~x + q$ shown and values for the parameters $m$ and $q$}
+\label{fig:exp2}
+\end{figure}
+
+\begin{figure}[htb]
+\begin{center}
+\begin{gnuplot}[terminal=jpeg, terminaloptions={size 400,300 font "Arial,9"}]
+max(x, y) = (x > y ? x:y)
+min(x, y) = (x < y ? x:y)
+set title "Height of  Binary Tree data structure given size of Input"
+set ylabel "Height of Tree"
+set xlabel "Size of Input"
+set xtics format "%.0s%c"
+
+logb(x, base) = log(x)/log(base)
+f1(x) = m * logb(x, 2)  + q
+fit f1(x) 'data/exp2_java_data.dat' using  1:3 via m, q
+
+mq1_value = sprintf("Parameter value\nm = %f\nq = %f", m, q)
+set label 1 at 50000,20 mq1_value
+
+plot "data/exp2_java_data.dat" using 1:3 t 'Height of Tree', f1(x) ls 2 t 'Best Fit Line'
+set out
+\end{gnuplot}
+\end{center}
+\caption{Average time taken to insert a single word into a dictionary implemented using a binary tree, with best fit line $f(x) = m log~x + q$ shown and values for the parameters $m$ and $q$}
+\label{fig:exp2_height}
+\end{figure}
+
+\begin{figure}[htb]
+\begin{center}
+\begin{gnuplot}[terminal=jpeg, terminaloptions={size 400,300 font "Arial,9"}]
+max(x, y) = (x > y ? x:y)
+min(x, y) = (x < y ? x:y)
+set title "Average Time Taken to insert a Word into a Dictionary using a Binary Tree data structure."
+set ylabel "Time in Milliseconds"
+set xlabel "Height of Tree"
+set xtics format "%.0s%c"
+
+f1(x) = m * x  + q
+fit f1(x) 'data/exp2_java_data.dat' using  3:(1000*$2 - 110/$1) via m, q
+
+mq1_value = sprintf("Parameter value\nm = %f\nq = %f", m, q)
+set label 1 at 20,250 mq1_value
+
+plot "data/exp2_java_data.dat" using 3:(1000*$2 - 110/$1) t 'time', f1(x) ls 2 t 'Best Fit Line'
+set out
+\end{gnuplot}
+\end{center}
+\caption{Average time taken to insert a single word into a dictionary implemented using a binary tree, with best fit line $f(x) = m log~x + q$ shown and values for the parameters $m$ and $q$}
+\label{fig:exp2_time_height}
+\end{figure}
+
+
+% logb(x, base) = log(x)/log(base)
+% f1(x) = m * x + q
+
+% fit f1(x) 'data/exp2_java_data.dat' using  1:3 via m, q
+
+% mq1_value = sprintf("Parameter value\nm = %f\nq = %f", m, q)
+% set label 1 at 50000,0.0012 mq1_value
+
+%f1(x) ls 2 t 'Best fit line average case'
+
+\fi
+
+\ifpython
+\begin{figure}[htb]
+\begin{center}
+\begin{gnuplot}[terminal=jpeg, terminaloptions={size 400,300 font "Arial,9"}]
+max(x, y) = (x > y ? x:y)
+min(x, y) = (x < y ? x:y)
+set title "Time Taken to insert Words into the Dictionary using a Binary Tree data structure"
+set ylabel "Time in Milliseconds"
+set xlabel "Size of Dictionary"
+set xtics format "%.0s%c"
+set xrange [0:105000]
+
+logb(x, base) = log(x)/log(base)
+f1(x) = m * logb(x, 2) * x + q
+
+fit f1(x) 'data/exp2_python_data.dat' using  1:((1000*$2 )) via m, q
+
+mq1_value = sprintf("Parameter value\nm = %f\nq = %f", m, q)
+set label 1 at 6000,700 mq1_value
+
+plot "data/exp2_python_data.dat" using 1:((1000*$2)) t "average case",  f1(x) ls 2 t 'Best fit line average case'
+set out
+\end{gnuplot}
+\end{center}
+\caption{Time taken to insert all words into a random dictionary, with best fit line $f(x) = x m log~x + q$ shown and values for the parameters $m$ and $q$}
+\label{fig:exp2_fixed}
+\end{figure}
+
+
+\begin{figure}[htb]
+\begin{center}
+\begin{gnuplot}[terminal=jpeg, terminaloptions={size 400,300 font "Arial,9"}]
+max(x, y) = (x > y ? x:y)
+min(x, y) = (x < y ? x:y)
+set title "Average Time Taken to insert a Word into the Dictionary using a Binary Tree data structure"
+set ylabel "Time in Milliseconds"
+set xlabel "Size of Dictionary"
+set xtics format "%.0s%c"
+set xrange [0:105000]
+
+logb(x, base) = log(x)/log(base)
+f1(x) = m * logb(x, 2)  + q
+
+fit f1(x) 'data/exp2_python_data.dat' using  1:((1000*$2 - 11)/$1) via m, q
+
+mq1_value = sprintf("Parameter value\nm = %f\nq = %f", m, q)
+set label 1 at 60000,0.014 mq1_value
+
+plot "data/exp2_python_data.dat" using 1:((1000*$2 - 11)/$1) t "average case",  f1(x) ls 2 t 'Best fit line average case'
+set out
+\end{gnuplot}
+\end{center}
+\caption{Time taken to insert words into a random dictionary, with best fit line $f(x) = m log~x + q$ shown and values for the parameters $m$ and $q$}
+\label{fig:exp2}
+\end{figure}
+
+\fi
+
+Figure~\ref{fig:exp2} presents the results for time to insert a single entry  a random dictionary.  The line $f(x) = m log~x + q$ has been calculated and the values for $m$ and $q$ are shown. \ifc As can be seen from the graph the the line $f(x) = m log~x + q$ has a reasonable fit in the average case and the value of 0.000252ms has been computed for $m$ and -0.002ms has been computed for $q$.  This confirms the hypothesis about the behaviour of the algorithm in the average case  is $O(log~n)$ -- though the values for the best fit line are obviously not quite right since $q$ should not be negative\footnote{For an 8 hour lab it is fine to leave this here as an observation that the best fit line needs some work.}. \fi  
+\ifjava As can be seen from the graph the the line $f(x) = m log~x + q$ has an OK fit in the average case (particularly if the larger input files are ignored) and the value of 22ms has been computed for $m$ and -145ms has been computed for $q$.  This suggests the hypothesis about the behaviour of the algorithm in the average case  is $O(log~n)$ -- though a better fit would have been preferable -- in particular without a negative value for $q$\footnote{For an 8 hour lab it is fine to leave this here as an observation that the best fit line needs some work but, as you can see, I did a little more work to investigate this further.}.  
+
+\fbox{\parbox{0.9\textwidth}{\textbf{What did I do about the bad results here?:} If you compare these Java answers with the C answers, you will see that the smaller input dictionaries (sizes under 10K) weren't used in the C case.  When I observed that I had something that looked more like a straight line in the average time, I hypothesised that I was looking at the part of the data where the log curve is flattening off, so I wanted to see what was happening at smaller dictionary sizes.  It's these results that are shown and they reassured me that my program wasn't completely wrong. 
+}}
+
+Theoretically the time taken in the average case is $O(log~n)$ because the height of the resulting tree should be $O(log~n)$ and the time should relate to the height of the tree.  In order to verify that the algorithm was working correctly I adapted the program to print out the height of the tree and Figure~\ref{fig:exp2_height} plots the height of the tree against the input.  With a best fit line of $f(x) = m log~x + q$ shown.  This is a much better fit than the line in Figure~\ref{fig:exp2} although it can be seen that there is a lot of variation in the tree height making it hard to distinguish the larger values.  Figure~\ref{fig:exp2_time_height} shows the time taken for the program to run against the height of the tree with the line $f(x) = mx + q$.  As can be seen this has a good fit for most of the values, but there are some anomalously slow results for some of the larger trees -- these probably correspond to the slower results observed for the larger dictionaries.  If more time was available, further investigation should re-run these results, possibly using a different timing mechanisms and a profiling tool, particularly for larger dictionaries to see if the anomalous slow down was caused garbage collection within the Java virtual machine or by factors other than the running time of the program itself.
+\fi
+ \ifpython As can be seen from the graph the the line $f(x) = m log~x + q$ has a reasonable fit in the average case and the value of 0.0005ms has been computed for $m$ and 11ms has been computed for $q$.  This confirms the hypothesis about the behaviour of the algorithm in the average case  is $O(log~n)$ though it should be noted there is one outlier for the smallest dictionary (see in Figure~\ref{fig:exp2}).
+ 
+ \fbox{\parbox{0.9\textwidth}{\textbf{A note about what I did here:} If you compare these Python answers with the C answers, you will see that the smaller input dictionaries (sizes under 10K) weren't used in the C case.  When I observed that I had something that looked more like a straight line in the average time, I hypothesised that I was looking at the part of the data where the log curve is flattening off, so I wanted to see what was happening at smaller dictionary sizes.  It's these results that are shown and they reassured me that my program wasn't completely wrong. 
+}}
+
+ \fi %-- though the values for the best fit line are obviously not quite right since $q$ should not be negative\footnote{For an 8 hour lab it is fine to leave this here as an observation that the best fit line needs some work.}. \fi  
+
+{\bf Marking Feedback:} A lot of people got confused somewhere around results and discussion with the difference between the total time to insert $n$ items into a binary tree (which we would expect to be $O(n~log~n)$ since each insert is $O(log~n)$) with the average time per insert.   Exactly where marks started getting lost depended upon where this first became obvious -- having something linear-ish showing in the graph was fine so long as it was clear this was total time or the text flagged this up, but then the discussion sometimes went on to say this disproved the hypothesis.  A number of people also lost marks by over-stating how good a fit their line was to the data.
